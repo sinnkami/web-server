@@ -1,0 +1,19 @@
+div.entry {
+    div.header {
+        h1.title {
+            border: 0px;
+            padding-left: 5px;
+            border-bottom: 1px;
+            border-style: solid;
+            border-color: black;
+            a { color: black; }
+        }
+    }
+    div.body {
+        * {
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+    }
+    div.footer { text-align: right; }
+}

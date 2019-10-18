@@ -1,0 +1,14 @@
+div.headers {
+    div.header {
+        padding: 10px 0px;
+        background-image: url("/images/nc90580.jpg");
+        background-size: 100% auto;
+        height: 100px;
+
+        h1, p {
+            position: absolute;
+            left: 50px;
+        }
+        p { top: 60px; }
+    }
+}

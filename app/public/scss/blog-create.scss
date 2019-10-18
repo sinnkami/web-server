@@ -1,0 +1,28 @@
+html { body { div.contents {
+    div.main {
+        div.entry, div.preview { width: 100%; }
+        div.entry {
+            textarea {
+                resize: none;
+                width: inherit;
+                height: 200px;
+            }
+        }
+
+        div.preview {
+            iframe {
+                width: inherit;
+                height: 400px;
+                background-color: white;
+                border: 1px solid grey;
+            }
+        }
+    }
+
+    div.sub {
+        button.create, button.confirmation { width: 100%; }
+        position: absolute;
+        width: 300px;
+        right: -200px;
+    }
+}}}

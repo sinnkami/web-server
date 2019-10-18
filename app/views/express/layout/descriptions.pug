@@ -1,0 +1,6 @@
+div.descriptions.box
+    - for (let text of descriptions)
+        if text.length == 0
+            br
+        else
+            p #{text}

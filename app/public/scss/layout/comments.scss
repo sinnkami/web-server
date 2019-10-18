@@ -1,0 +1,12 @@
+div.comment-create {
+    display: none;
+}
+div.comment {
+    div.body {
+        margin: 0px 5px;
+        border: 1px solid black;
+        max-height: 200px;
+        overflow-y: scroll;
+        word-break: break-word;
+    }
+}

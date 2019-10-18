@@ -1,0 +1,7 @@
+extends /layout/default
+
+block main
+    h2 #{errorStatus}
+    h1 #{errorTitle}
+    p #{errorMessage}
+    pre #{error.stack}

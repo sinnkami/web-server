@@ -1,0 +1,6 @@
+div.lists.box
+    span.overview #{listTitle}
+    ul.items
+        - for (let list of lists)
+            li.item-list
+                a.item-link(href=`/blog/${href}/${list}`) #{list}

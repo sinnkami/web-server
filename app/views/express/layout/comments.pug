@@ -1,0 +1,18 @@
+if comments
+    div.comment-create.box
+        span 名前
+        div.set-author
+            input(name="author" type="text" maxlength="30" placeholder="名前を入力してください")
+            span 本文
+            div.set-body
+                textarea(name="body" rows="4" cols="40")
+                button.submit 投稿
+            - for (let data of comments)
+                div.comment.box
+                div.header
+                if data.author
+                    p.comment-name 名前 : #{data.author}
+                if data.create_at
+                    p.create_at 投稿日 : #{data.create_at}
+                div.body !{data.body}
+                div.footer

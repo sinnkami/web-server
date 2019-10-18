@@ -1,0 +1,29 @@
+div.page-direction.box
+    if currentPage || maxPage
+        ul.items
+            if currentPage != 1
+                li.back-page
+                    a(href=`/blog?page=${currentPage-1}`) 前のページ
+            else
+                li.back-page 前のページ
+            li
+                a(href="/") ホーム
+            if maxPage != currentPage
+                li.next-page
+                    a(href=`/blog?page=${currentPage+1}`) 次のページ
+            else
+                li.next-page 次のページ
+    else
+        ul.items
+            if back
+                li.back-page
+                    a(href=`/blog/entry/${back}`) 前の記事
+            else
+                li.back-page 前の記事
+            li
+                a(href="/blog") 記事一覧に戻る
+            if next
+                li.next-page
+                    a(href=`/blog/entry/${next}`) 次の記事
+            else
+                li.next-page 次の記事

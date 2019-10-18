@@ -1,0 +1,16 @@
+extends /layout/default
+block meta
+    link(rel="stylesheet" href="/css/layout/descriptions.css")
+    link(rel="stylesheet" href="/css/layout/profile.css")
+    link(rel="stylesheet" href="/css/layout/latest-contents.css")
+    link(rel="stylesheet" href="/css/layout/category-list.css")
+    link(rel="stylesheet" href="/css/layout/tweet-timeline.css")
+
+block main
+    include /layout/descriptions
+    include /layout/latest-contents
+    include /layout/tweet-timeline
+
+block sub
+    include /layout/profile
+    include /layout/category-list

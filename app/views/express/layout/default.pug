@@ -1,0 +1,37 @@
+doctype html
+html
+    head
+        title #{title}
+        meta(content=`${title}` name="title")
+        meta(name="description" content=`${descriptions.join(" ")}`)
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="format-detection" content="email=no,telephone=no,address=no")
+        meta(name="viewport" content="width=device-width,initial-scale=1")
+        //- link(rel="icon" href="" sizes="16x16" type="image/png")
+        //- link(rel="icon" href="" sizes="32x32" type="image/png")
+        //- link(rel="icon" href="" sizes="48x48" type="image/png")
+        //- link(rel="icon" href="" sizes="62x62" type="image/png")
+        //- link rel="apple-touch-icon-precomposed" href="画像のURL" /> 150*150
+        link(rel="stylesheet" href="/css/default.css")
+        script(src="/module/jquery.min.js" type="text/javascript" charset="utf-8")
+        link(rel="stylesheet" href="/css/layout/header.css")
+        link(rel="stylesheet" href=`/css/device/${device}.css`)
+        if device == "mobile"
+            script(src="/module/jquery.slicknav.min.js" type="text/javascript" charset="utf-8")
+            script(src="/scripts/smartphone.js" type="text/javascript" charset="utf-8")
+            link(rel="stylesheet" href="/module/slicknav.min.css")
+        else
+            link(rel="stylesheet" href="/css/layout/menu.css")
+        block meta
+    body
+        div.headers
+            include header
+            include menu
+            block headers
+
+        div.contents
+            div.main.left-contents
+                block main
+            div.sub.right-contents
+                block sub

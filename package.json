@@ -1,0 +1,38 @@
+{
+  "name": "node-sinnkamis-site",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./dist/express/bin/www"
+  },
+  "dependencies": {
+    "eslint": "^6.5.1",
+    "node-sass-middleware": "0.11.0",
+    "require-dir": "^1.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
+    "babel-preset-env": "^1.7.0",
+    "del": "^5.1.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-clean-css": "^3.9.3",
+    "gulp-eslint": "^6.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-install": "^1.1.0",
+    "gulp-live-server": "0.0.31",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-pug": "^3.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sequence": "^1.0.0",
+    "gulp-strip-debug": "^3.0.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^5.0.0",
+    "yargs": "^14.0.0"
+  }
+}
