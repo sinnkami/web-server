@@ -90,4 +90,4 @@ class EntriesMaster extends SQL {
     }
 }
 
-module.exports = EntriesMaster;
+module.exports = new EntriesMaster();

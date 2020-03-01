@@ -10,15 +10,17 @@ const config = require('config');
 const requireDir = require('require-dir');
 const routers = requireDir("./routes", { recurse: true });
 
-const logger = require('logger');
+const log4js = require('./lib/log4js');
+const logger = log4js.getLogger();
+
 const isDevice = require('isDevice');
 const errorHander = require('error-handler');
 
 const CategoryMaster = require('./lib/database/CategoryMaster');
 const EntriesMaster = require('./lib/database/EntriesMaster');
 
-const categoryMaster = new CategoryMaster();
-const entriesMaster = new EntriesMaster();
+// MEMO: 捕捉されなかったPromise内の例外を表示する
+process.on('unhandledRejection', logger.trace);
 
 require('./lib/tasks');
 
@@ -38,9 +40,8 @@ if (config.has("favicon.use") && config.get("favicon.use")) {
 }
 
 if (config.has("logger") && config.get("logger")) {
-    app.use(logger(':color(5;1)[:date]:color(0)'));
-    app.use(logger(':method :status :url :color(6):response-ms-time ms:color(0)'));
-    app.use(logger('接続元IP :: :ip'));
+    const options = config.get("logger.connectLoggerOptions");
+    app.use(log4js.connectLogger(logger, options));
 }
 
 app.use(bodyParser.json());
@@ -54,6 +55,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
+        sameSite: "lax",
         httpOnly: true,
         secure: sessionCookieConfig.secure,
         maxage: sessionCookieConfig.maxage,
@@ -72,15 +74,32 @@ if (config.has("useNodeModulePathList")) {
         }
         app.use('/module', moduleList);
     } else {
-        console.warn("'useNodeModulePath' is not an array");
+        logger.warn("'useNodeModulePath' is not an array");
     }
 }
 
 // 全ページ共通処理
 app.use(function(req, res, next) {
-    Promise.all([categoryMaster.get(), entriesMaster.getEntryListByLimitCount(1, 5)]).then(function([categorys, entries]) {
+    Promise.all([CategoryMaster.get(), EntriesMaster.getEntryListByLimitCount(1, 5)]).then(function([categorys, entries]) {
 
         Object.assign(res.locals, config.get("locals"));
+
+        const descriptions = res.locals.descriptions;
+        if (Array.isArray(descriptions)) {
+            res.locals.descriptions = descriptions.join("\n");
+        }else if (!descriptions) {
+            res.locals.descriptions = "";
+        }
+
+        const menu = res.locals.menu;
+        if (!menu || !Array.isArray(menu)) {
+            res.locals.menu = [];
+        }
+
+        const systemMenu = res.locals.systemMenu;
+        if (!systemMenu || !Array.isArray(systemMenu)) {
+            res.locals.systemMenu = [];
+        }
 
         // デバイス情報を設定する
         res.locals.device = isDevice(req);
@@ -119,7 +138,7 @@ routerUse("/", routers);
 app.use(function(req, res, next) { return next("NotFound"); });
 
 // error handler
-app.use(errorHander(function(error, req, res, next) {
+app.use(errorHander(function(error, req, res) {
     res.status(error.status || 500);
     res.render('error', {
         errorTitle: error.title,

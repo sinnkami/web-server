@@ -38,4 +38,4 @@ class CategoryMaster extends SQL {
     }
 }
 
-module.exports = CategoryMaster;
+module.exports = new CategoryMaster();

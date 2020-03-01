@@ -29,4 +29,4 @@ class AccsessLogMaster extends SQL {
     }
 }
 
-module.exports = AccsessLogMaster;
+module.exports = new AccsessLogMaster();

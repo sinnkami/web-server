@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./dist/express/bin/www"
+    "start": "node ./dist/express/bin/www",
+    "watch": "gulp --watch"
   },
   "dependencies": {
     "eslint": "^6.5.1",

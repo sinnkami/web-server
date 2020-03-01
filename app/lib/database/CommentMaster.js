@@ -43,4 +43,4 @@ class CommentMaster extends SQL {
     }
 }
 
-module.exports = CommentMaster;
+module.exports = new CommentMaster();

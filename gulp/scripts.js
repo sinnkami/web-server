@@ -16,14 +16,14 @@ gulp.task('scripts', function(){
         .pipe(plumber({
             errorHandler() {},
         }))
-        // .pipe(eslint({ useEslintrc: true })) // .eslintrc を参照
-        // .pipe(eslint.format())
-        // .pipe(eslint.results(results => {
-        // //Called once for all ESLint results.
-        //     console.log(`Total Results: ${results.length}`);
-        //     console.log(`Total Warnings: ${results.warningCount}`);
-        //     console.log(`Total Errors: ${results.errorCount}`);
-        // }))
+        .pipe(eslint({ useEslintrc: true })) // .eslintrc を参照
+        .pipe(eslint.format())
+        .pipe(eslint.results(results => {
+        //Called once for all ESLint results.
+            console.log(`Total Results: ${results.length}`);
+            console.log(`Total Warnings: ${results.warningCount}`);
+            console.log(`Total Errors: ${results.errorCount}`);
+        }))
         .pipe(babel({
             presets: ['env'],
         }).on('error', notify.onError(function(err) {
@@ -45,9 +45,9 @@ gulp.task('scripts', function(){
             gutil.log(err.toString());
             this.emit("end");
         })))
-    // .pipe(rename(function(path){
-    //   path.dirname = ".";
-    // }))
+        .pipe(rename(function(path){
+            path.dirname = ".";
+        }))
         .pipe(gulp.dest(`${args.dest}/public/scripts/`));
 });
 

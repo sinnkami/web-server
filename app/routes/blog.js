@@ -4,12 +4,12 @@ const router = express.Router();
 const cheerio = require('cheerio');
 require('date-utils');
 
+const log4js = require('../lib/log4js');
+const logger = log4js.getLogger();
+
 const EntriesMaster = require('../lib/database/EntriesMaster');
 const CommentMaster = require('../lib/database/CommentMaster');
 const CategoryMaster = require('../lib/database/CategoryMaster');
-const entriesMaster = new EntriesMaster();
-const commentMaster = new CommentMaster();
-const categoryMaster = new CategoryMaster();
 
 
 // 一覧の記事数
@@ -20,8 +20,8 @@ const LIMIT = 10;
 router.get('/', function(req, res, next) {
     const page = Number(req.query.page) || 1;
     Promise.all([
-        entriesMaster.getEntriyCount(),
-        entriesMaster.getEntryListByLimitCount((page - 1) * LIMIT, LIMIT),
+        EntriesMaster.getEntriyCount(),
+        EntriesMaster.getEntryListByLimitCount((page - 1) * LIMIT, LIMIT),
     ]).then(function([count, values]) {
         if (!values.length) { return next("NotFound"); }
         const promise = [];
@@ -32,7 +32,7 @@ router.get('/', function(req, res, next) {
             res.render("main/blog", { contents: contents, currentPage: page,  maxPage: Math.ceil(count / 10) });
         });
     }).catch(function(err) {
-        console.log(err);
+        logger.error(err);
         next("NotFound");
     });
 });
@@ -40,20 +40,24 @@ router.get('/', function(req, res, next) {
 // 記事を表示する
 router.get('/entry/:id(\\d+)', function(req, res, next) {
     Promise.all([
-        entriesMaster.getById(Number(req.params.id)),
-        entriesMaster.getNextEntry(Number(req.params.id)),
-        entriesMaster.getBackEntry(Number(req.params.id)),
-        commentMaster.getCommentListByEntryId(Number(req.params.id)),
+        EntriesMaster.getById(Number(req.params.id)),
+        EntriesMaster.getNextEntry(Number(req.params.id)),
+        EntriesMaster.getBackEntry(Number(req.params.id)),
+        CommentMaster.getCommentListByEntryId(Number(req.params.id)),
     ]).then(function([value, next, back, comments]) {
         if (!comments.length) {
             comments.push({ body: "<p>コメントがありません</p>" });
         } else {
-            for (let data of comments) { if (data.create_at) { data.create_at = new Date(value.create_at).toFormat("YYYY/MM/DD HH24時MI分"); }}
+            for (let data of comments) {
+                if (data.create_at) {
+                    data.create_at = new Date(value.create_at).toFormat("YYYY/MM/DD HH24時MI分");
+                }
+            }
         }
         contentsConversion(value, false).then(function(contents) {
             let twitterCard;
             const imageURL = getFirstImageURL(contents.body);
-            console.log(imageURL);
+            logger.debug(imageURL);
             if (imageURL) {
                 twitterCard = {
                     card        : "summary_large_image",
@@ -65,7 +69,7 @@ router.get('/entry/:id(\\d+)', function(req, res, next) {
                 };
             }
             res.locals.entryID = Number(req.params.id);
-            console.log(twitterCard);
+            logger.debug(twitterCard);
             res.render("main/blog", {
                 contents: [contents],
                 next: next ? next.id : "",
@@ -75,21 +79,21 @@ router.get('/entry/:id(\\d+)', function(req, res, next) {
             });
         });
     }).catch(function(err) {
-        console.log(err);
+        logger.error(err);
         next("NotFound");
     });
 });
 
 // カテゴリ一覧を表示する
 router.get('/category', function(req, res, next) {
-    Promise.resolve(categoryMaster.get()).then(function(categorys) {
+    Promise.resolve(CategoryMaster.get()).then(function(categorys) {
         const lists = categorys.reduce((v, current) => {
             if (v.indexOf(current.name) === -1) { v.push(current.name); }
             return v;
         }, []);
         res.render("main/lists", { listTitle: "カテゴリ一覧", href: "category", lists: lists });
     }).catch(function(err) {
-        console.log(err);
+        logger.error(err);
         next("NotFound");
     });
 });
@@ -97,13 +101,13 @@ router.get('/category', function(req, res, next) {
 // カテゴリーで記事を絞る
 router.get(`/category/:name`, function(req, res, next) {
     const page = Number(req.query.page) || 1;
-    Promise.resolve(categoryMaster.getByName(req.params.name))
+    Promise.resolve(CategoryMaster.getByName(req.params.name))
         .then((categoryList) => {
             const entriIdList = categoryList.map((v) => v.entryId);
 
             Promise.all([
-                entriesMaster.getEntriyCountByIds(entriIdList),
-                entriesMaster.getByIds(entriIdList),
+                EntriesMaster.getEntriyCountByIds(entriIdList),
+                EntriesMaster.getByIds(entriIdList),
             ]).then(function([count, entries]) {
                 const promise = [];
                 entries.forEach(function(entry) {
@@ -113,7 +117,7 @@ router.get(`/category/:name`, function(req, res, next) {
                     res.render("main/blog", { contents: contents, currentPage: page,  maxPage: Math.ceil(count / 10) });
                 });
             }).catch(function(err) {
-                console.log(err);
+                logger.error(err);
                 next("NotFound");
             });
         });
@@ -125,7 +129,7 @@ router.post('/comment', function(req, res, next) {
     data.entryID = res.locals.entryID;
     data.ip = getIp(req);
     data.device = req.headers["user-agent"];
-    commentMaster.insertComment(data).then(function(result) {
+    CommentMaster.insertComment(data).then(function(result) {
         res.status(200).json(result);
     }).catch(function(err) {
         res.status(500).send(err);
@@ -135,8 +139,8 @@ router.post('/comment', function(req, res, next) {
 // 取得したデータを表示できるように変換する関数
 function contentsConversion(value, more = false) {
     return new Promise(function(resolve, reject) {
-        Promise.all([categoryMaster.getById(value.id)]).then(function([category]) {
-            console.log("category: ", category);
+        Promise.all([CategoryMaster.getById(value.id)]).then(function([category]) {
+            logger.debug("category: ", category);
             // カテゴリーを設定する
             value.category = category.name;
 

@@ -4,7 +4,6 @@ const sass = require('gulp-sass');
 const gulpif = require('gulp-if');
 const gutil = require('gulp-util');
 const cleanCSS = require('gulp-clean-css');
-const rename = require('gulp-rename');
 
 gulp.task('style:sass', function() {
     return gulp.src(`${args.src}/public/scss/**/*.scss`)
