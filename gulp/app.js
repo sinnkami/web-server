@@ -1,9 +1,11 @@
-const gulp = require('gulp');
-const rename = require("gulp-rename");
-const args = require('./lib/value');
+const gulp = require("gulp");
+const args = require("./lib/value");
 
-gulp.task('express', function() {
-    return gulp.src(`${args.src}/app.js`)
-        .pipe(rename("./app.js"))
-        .pipe(gulp.dest(`${args.dest}/`));
+const ts = require("gulp-typescript");
+
+gulp.task("express", function() {
+	return gulp
+		.src(`${args.src}/app.ts`)
+		.pipe(ts())
+		.pipe(gulp.dest(`${args.dest}/`));
 });

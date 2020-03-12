@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"target": "ES6",
+		// "module": "commonjs",
+		"allowJs": false,
+		"declaration": true,
+		"declarationMap": false,
+		"sourceMap": false,
+		"rootDir": "./app",
+		"removeComments": true,
+		"noEmit": false,
+		"isolatedModules": false,
+
+		"esModuleInterop": true,
+
+		"strict": true,
+
+		"forceConsistentCasingInFileNames": true
+	}
+}

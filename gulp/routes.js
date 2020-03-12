@@ -1,7 +1,11 @@
-const gulp = require('gulp');
-const args = require('./lib/value');
+const gulp = require("gulp");
+const args = require("./lib/value");
 
-gulp.task('routes', function() {
-    return gulp.src(`${args.src}/routes/**/*.js`)
-        .pipe(gulp.dest(`${args.dest}/routes`));
+const ts = require("gulp-typescript");
+
+gulp.task("routes", function() {
+	return gulp
+		.src(`${args.src}/routes/**/*.ts`)
+		.pipe(ts())
+		.pipe(gulp.dest(`${args.dest}/routes`));
 });
