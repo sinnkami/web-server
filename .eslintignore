@@ -1,4 +1,4 @@
 logs/
 gulp/
-node_module/
+**/node_modules/**
 test*
