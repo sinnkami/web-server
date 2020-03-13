@@ -35,7 +35,7 @@
 		"comma-style": ["error", "last"],
 		"computed-property-spacing": ["error", "never"],
 		"func-call-spacing": ["error", "never"],
-		"indent": ["error", "tab"],
+		"indent": ["error", "tab", { "SwitchCase": 1 }],
 		"new-parens": "error",
 		"no-lonely-if": "error",
 		"no-trailing-spaces": "error",
@@ -45,6 +45,9 @@
 		"semi-spacing": "error",
 		"semi-style": ["error", "last"],
 		"space-before-function-paren": ["error", "never"],
-		"space-infix-ops": "error"
+		"space-infix-ops": "error",
+
+		// typescript
+		"@typescript-eslint/no-use-before-define": "off"
 	}
 }
