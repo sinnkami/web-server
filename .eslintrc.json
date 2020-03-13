@@ -48,6 +48,12 @@
 		"space-infix-ops": "error",
 
 		// typescript
-		"@typescript-eslint/no-use-before-define": "off"
+		"@typescript-eslint/no-use-before-define": "off",
+		"@typescript-eslint/interface-name-prefix": [
+			"error",
+			{
+				"prefixWithI": "always"
+			}
+		]
 	}
 }
