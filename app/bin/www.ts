@@ -8,6 +8,9 @@ import app from "../app";
 import http from "http";
 import config from "config";
 
+import log4js from "../lib/log4js";
+const logger = log4js.getLogger();
+
 /**
  * Get port from environment and store in Express.
  */
@@ -63,11 +66,11 @@ function onError(error: { syscall: string; code: string }): void {
 	// handle specific listen errors with friendly messages
 	switch (error.code) {
 		case "EACCES":
-			console.error(bind + " requires elevated privileges");
+			logger.error(bind + " requires elevated privileges");
 			process.exit(1);
 			break;
 		case "EADDRINUSE":
-			console.error(bind + " is already in use");
+			logger.error(bind + " is already in use");
 			process.exit(1);
 			break;
 		default:
@@ -83,5 +86,5 @@ function onListening(): void {
 	const addr = server.address();
 	if (!addr) return;
 	const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-	console.debug("Listening on " + bind);
+	logger.info("Listening on " + bind);
 }
