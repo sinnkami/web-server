@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
@@ -13,16 +13,23 @@ const routers = requireDir("./routes", { recurse: true });
 import log4js from "./lib/log4js";
 const logger = log4js.getLogger();
 
-import isDevice from "isDevice";
-import errorHander from "error-handler";
+import isDevice from "./lib/isDevice";
+import errorHander from "./lib/error-handler";
 
-import CategoryMaster from "./lib/database/CategoryMaster";
-import EntriesMaster from "./lib/database/EntriesMaster";
+import Category from "./lib/database/Category";
+import Entries from "./lib/database/Entries";
+import HttpException from "./lib/class/Exception/HttpException";
 
 // MEMO: 捕捉されなかったPromise内の例外を表示する
 process.on("unhandledRejection", logger.trace);
 
-require("./lib/tasks");
+import Tasks from "./lib/tasks";
+const taskMessages: string[] = ["自動実行タスク一覧"];
+for (const taskName of Object.keys(Tasks.jobList)) {
+	taskMessages.push("・" + taskName);
+}
+taskMessages.push("------------------------------------");
+logger.debug(taskMessages.join("\n"));
 
 const app = express();
 
@@ -85,10 +92,7 @@ if (config.has("useNodeModulePathList")) {
 
 // 全ページ共通処理
 app.use(function(req, res, next) {
-	Promise.all([CategoryMaster.get(), EntriesMaster.getEntryListByLimitCount(1, 5)]).then(function([
-		categorys,
-		entries,
-	]) {
+	Promise.all([Category.get(), Entries.getEntryListByLimitCount(1, 5)]).then(function([categorys, entries]) {
 		Object.assign(res.locals, config.get("locals"));
 
 		const descriptions = res.locals.descriptions;
@@ -112,7 +116,7 @@ app.use(function(req, res, next) {
 		res.locals.device = isDevice(req);
 
 		// 最新の記事を設定する
-		const contents = [];
+		const contents: { title: string; id: number }[] = [];
 		entries.forEach(function(value) {
 			contents.push({ title: value.title, id: value.id });
 		});
@@ -122,7 +126,7 @@ app.use(function(req, res, next) {
 		const maxCategory: number = config.get("maxCategory") || 5;
 		const categoryList = categorys
 			.sort((a, b) => b.id - a.id)
-			.reduce((v, current, index, array) => {
+			.reduce((v: string[], current, index, array) => {
 				if (v.indexOf(current.name) === -1) {
 					v.push(current.name);
 				}
@@ -157,7 +161,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(
-	errorHander(function(error, req, res) {
+	errorHander(function(error: HttpException, req: Request, res: Response) {
 		res.status(error.status || 500);
 		res.render("error", {
 			errorTitle: error.title,
