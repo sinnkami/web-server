@@ -3,7 +3,7 @@
 		"target": "ES6",
 		"module": "commonjs",
 		"allowJs": false,
-		"declaration": true,
+		"declaration": false,
 		"declarationMap": false,
 		"sourceMap": false,
 		"rootDir": "./app",
