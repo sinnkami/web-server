@@ -22,6 +22,7 @@
 		"serve-favicon": "^2.4.5",
 		"slicknav": "^1.0.8",
 		"squel": "^5.13.0",
+		"strip-ansi": "^6.0.0",
 		"ua-parser-js": "^0.7.21"
 	},
 	"devDependencies": {}

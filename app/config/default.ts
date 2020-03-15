@@ -3,6 +3,23 @@ import path from "path";
 const dirName = __dirname.replace(/config/g, "");
 console.log(dirName);
 
+import log4js from "log4js";
+import ResponseLog from "../lib/class/ResponseLog";
+
+log4js.addLayout("customLogFile", () => {
+	return (logEvent): string => {
+		ResponseLog.init(logEvent);
+		return ResponseLog.text(true);
+	};
+});
+
+log4js.addLayout("customConsole", () => {
+	return (logEvent): string => {
+		ResponseLog.init(logEvent);
+		return ResponseLog.text(false);
+	};
+});
+
 const config = {
 	locals: {},
 	title: "otouhu-blog",
@@ -24,8 +41,7 @@ const config = {
 				console: {
 					type: "console",
 					layout: {
-						type: "pattern",
-						pattern: "[%[%p%]] [%d{yyyy/MM/dd-hh:mm:ss}]%n%m",
+						type: "customConsole",
 					},
 				},
 				accsessLogFile: {
@@ -33,8 +49,7 @@ const config = {
 					filename: "logs/access.log",
 					pattern: "-yyyy-MM-dd",
 					layout: {
-						type: "pattern",
-						pattern: "[%p] [%d{yyyy/MM/dd-hh:mm:ss}]%n%m",
+						type: "customLogFile",
 					},
 				},
 				errorLogFile: {
@@ -42,8 +57,7 @@ const config = {
 					filename: "logs/error.log",
 					pattern: "_yyyy-MM-dd",
 					layout: {
-						type: "pattern",
-						pattern: "[%p] [%d{yyyy/MM/dd-hh:mm:ss}]%n%m",
+						type: "customLogFile",
 					},
 				},
 				accsess: {
@@ -66,6 +80,7 @@ const config = {
 				default: {
 					appenders: ["system", "accsess", "error"],
 					level: "all",
+					enableCallStack: true,
 				},
 			},
 			replaceConsole: true,
@@ -77,7 +92,7 @@ const config = {
 				{ from: 400, to: 499, level: "warn" },
 				{ from: 500, to: 599, level: "error" },
 			],
-			format: ":method :status :url :response-timems\n接続元IP: :remote-addr",
+			context: true,
 		},
 	},
 
