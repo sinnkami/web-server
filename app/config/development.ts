@@ -23,4 +23,4 @@ const locals = {
 };
 config.locals = locals;
 
-exports = config;
+export = config;
