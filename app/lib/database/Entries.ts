@@ -78,6 +78,19 @@ class Entries extends SQL {
 		return results;
 	}
 
+	async getEntryListByIdsAndLimitCount(ids: number[], offset: number, limit = 10): Promise<IEntries[]> {
+		const sql = squelMysql
+			.select()
+			.from(this.tableName)
+			.where("id IN ?", ids)
+			.limit(limit)
+			.offset(offset)
+			.order("id", false)
+			.toParam();
+		const results = await this.select(sql.text, sql.values);
+		return results;
+	}
+
 	async getEntriyCount(): Promise<number> {
 		const sql = squelMysql
 			.select()
