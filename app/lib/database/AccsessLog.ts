@@ -3,7 +3,7 @@ import SQL from "./SQL";
 import squel from "squel";
 const squelMysql = squel.useFlavour("mysql");
 
-import { IAccsessLog } from "../definitions/database/IAccsessLog";
+import { IAccsessLog } from "../definitions/database/AccsessLog";
 
 const TABLE_NAME = "AccsessLog";
 

@@ -3,7 +3,7 @@ import SQL from "./SQL";
 import squel from "squel";
 const squelMysql = squel.useFlavour("mysql");
 
-import { ICategory } from "../definitions/database/ICategory";
+import { ICategory } from "../definitions/database/Category";
 
 const TABLE_NAME = "Category";
 

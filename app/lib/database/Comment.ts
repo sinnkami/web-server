@@ -3,7 +3,7 @@ import SQL from "./SQL";
 import squel from "squel";
 const squelMysql = squel.useFlavour("mysql");
 
-import { IComment } from "../definitions/database/IComment";
+import { IComment } from "../definitions/database/Comment";
 
 const TABLE_NAME = "Comment";
 

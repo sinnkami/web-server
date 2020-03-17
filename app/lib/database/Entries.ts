@@ -3,7 +3,7 @@ import SQL from "./SQL";
 import squel from "squel";
 const squelMysql = squel.useFlavour("mysql");
 
-import { IEntries } from "../definitions/database/IEntries";
+import { IEntries } from "../definitions/database/Entries";
 
 const TABLE_NAME = "Entries";
 
