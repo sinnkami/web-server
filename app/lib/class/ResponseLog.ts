@@ -2,14 +2,15 @@
 
 import moment from "moment";
 import stripAnsi from "strip-ansi";
+import path from "path";
 
 import LinuxColor from "./LinuxColor";
-import { LoggingEvent, Level } from "log4js";
+import { Level } from "log4js";
 
 class ResponseLog {
-	private logEvent!: LoggingEvent;
+	private logEvent!: any;
 
-	public init(logEvent: LoggingEvent): void {
+	public init(logEvent: any): void {
 		this.logEvent = logEvent;
 	}
 
@@ -25,11 +26,18 @@ class ResponseLog {
 		const level = levelColor + logEvent.level.levelStr + LinuxColor.default();
 		const date = LinuxColor.lightBlue() + this.getDate() + LinuxColor.default();
 
+		let fileName = logEvent.fileName;
+		const fileList = fileName.split(path.sep);
+		// TODO: 定数化
+		if (fileList.length > 2) {
+			fileName = fileList.slice(-2).join(path.sep);
+		}
+
 		const messages: string[] = [];
-		messages.push(`[${level}] [${date}]`);
+		messages.push(`[${level}] [${date}] [${LinuxColor.gray() + fileName + LinuxColor.default()}]`);
 
 		if (!logEvent.context.res) {
-			messages.push(logEvent.data.join());
+			messages.push(logEvent.data.join("\n"));
 			return messages.join("\n");
 		}
 		const res = logEvent.context.res;
