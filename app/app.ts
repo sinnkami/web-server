@@ -14,7 +14,8 @@ import log4js from "./lib/modules/log4js";
 const logger = log4js.getLogger();
 
 import isDevice from "./lib/modules/isDevice";
-import errorHander from "./lib/modules/error-handler";
+
+import ErrorHandler from "./lib/handler/ErrorHandler";
 
 import Category from "./lib/database/Category";
 import Entries from "./lib/database/Entries";
@@ -161,7 +162,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(
-	errorHander(function(error: HttpException, req: Request, res: Response) {
+	ErrorHandler.process(function(error: HttpException, req: Request, res: Response) {
 		res.status(error.status || 500);
 		res.render("error", {
 			errorTitle: error.title,
