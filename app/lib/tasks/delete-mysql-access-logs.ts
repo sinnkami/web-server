@@ -1,7 +1,7 @@
 import schedule from "node-schedule";
 import path from "path";
 
-import log4js from "../log4js";
+import log4js from "../modules/log4js";
 const logger = log4js.getLogger();
 
 import AccsessLog from "../database/AccsessLog";

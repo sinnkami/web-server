@@ -10,11 +10,11 @@ import config from "config";
 import requireDir from "require-dir";
 const routers = requireDir("./routes", { recurse: true });
 
-import log4js from "./lib/log4js";
+import log4js from "./lib/modules/log4js";
 const logger = log4js.getLogger();
 
-import isDevice from "./lib/isDevice";
-import errorHander from "./lib/error-handler";
+import isDevice from "./lib/modules/isDevice";
+import errorHander from "./lib/modules/error-handler";
 
 import Category from "./lib/database/Category";
 import Entries from "./lib/database/Entries";
@@ -23,7 +23,7 @@ import HttpException from "./lib/class/Exception/HttpException";
 // MEMO: 捕捉されなかったPromise内の例外を表示する
 process.on("unhandledRejection", logger.trace);
 
-import Tasks from "./lib/tasks";
+import Tasks from "./lib/modules/tasks";
 const taskMessages: string[] = ["自動実行タスク一覧"];
 for (const taskName of Object.keys(Tasks.jobList)) {
 	taskMessages.push("・" + taskName);

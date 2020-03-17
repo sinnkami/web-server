@@ -5,7 +5,7 @@
 /*============================================================================*/
 
 import { Request, Response, NextFunction } from "express";
-import HttpException from "./class/Exception/HttpException";
+import HttpException from "../class/Exception/HttpException";
 
 export default function(callback: Function) {
 	return function(error: string, req: Request, res: Response, next: NextFunction): Function {

@@ -2,7 +2,7 @@
 import config from "config";
 import mysql, { Connection } from "promise-mysql";
 
-import log4js from "../log4js";
+import log4js from "../modules/log4js";
 const logger = log4js.getLogger();
 
 class SQL {

@@ -8,7 +8,7 @@ import app from "../app";
 import http from "http";
 import config from "config";
 
-import log4js from "../lib/log4js";
+import log4js from "../lib/modules/log4js";
 const logger = log4js.getLogger();
 
 /**
