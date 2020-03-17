@@ -3,6 +3,6 @@ export interface IEntries {
 	author: string;
 	title: string;
 	body: string;
-	cretae_at: Date;
+	create_at: Date;
 	update_at: Date;
 }
