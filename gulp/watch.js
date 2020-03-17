@@ -17,6 +17,9 @@ gulp.task("watch:express", callback => {
 	watch(`${args.src}/public/**/*`, () => {
 		return gulp_sequence("public").call();
 	});
+	watch(`${args.src}/views/**/*`, () => {
+		return gulp_sequence("views").call();
+	});
 	watch(`${args.src}/**/*.ts`, () => {
 		return gulp_sequence("typescript", "server").call();
 	});
