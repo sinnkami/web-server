@@ -37,7 +37,12 @@ class ResponseLog {
 		messages.push(`[${level}] [${date}] [${LinuxColor.gray() + fileName + LinuxColor.default()}]`);
 
 		if (!logEvent.context.res) {
-			messages.push(logEvent.data.join("\n"));
+			messages.concat(
+				logEvent.data.map((value: any) => {
+					if (typeof value === "object") return JSON.stringify(value);
+					return value;
+				})
+			);
 			return messages.join("\n");
 		}
 		const res = logEvent.context.res;
