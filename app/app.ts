@@ -15,9 +15,10 @@ const logger = log4js.getLogger();
 import isDevice from "./lib/modules/isDevice";
 
 import ErrorHandler from "./lib/handler/ErrorHandler";
+const handlerList = requireDir("./lib/handler/beforeHandler");
 
-import Category from "./lib/database/Category";
-import Entries from "./lib/database/Entries";
+const routers = requireDir("./routes", { recurse: true });
+
 import HttpException from "./lib/class/Exception/HttpException";
 
 // MEMO: 捕捉されなかったPromise内の例外を表示する
@@ -104,7 +105,6 @@ app.use(function(req, res, next) {
 });
 
 // 全ページ共通処理を読み込む
-const handlerList = requireDir("./lib/handler/beforeHandler");
 for (const handler of Object.values(handlerList)) {
 	app.use(handler.process());
 }
@@ -120,7 +120,6 @@ function routerUse(url: string, routers: object): string | void {
 		app.use(routerUrl, router);
 	}
 }
-const routers = requireDir("./routes", { recurse: true });
 routerUse("/", routers);
 
 // catch 404 and forward to error handler
