@@ -23,6 +23,10 @@ export interface IGetEntry {
 
 export type IGetEntriesByCategoryName = IGetEntries;
 
+export interface IGetLatestEntries {
+	entryList: EntryData[];
+}
+
 class EntryService {
 	private readonly MAX_ENTRIES: number = config.get("maxEntries") || MAX_ENTRIES;
 
@@ -79,6 +83,15 @@ class EntryService {
 		return {
 			entryList: entryDataList,
 			entryCount,
+		};
+	}
+
+	public async getLatestEntries(): Promise<IGetLatestEntries> {
+		const entryList = await Entries.getEntryListByLimitCount(1, 5);
+		const entryDataList = await Promise.all(entryList.map(entry => new EntryData(entry).createEntry()));
+
+		return {
+			entryList: entryDataList,
 		};
 	}
 }

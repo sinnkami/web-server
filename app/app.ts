@@ -8,7 +8,6 @@ process.env.NODE_CONFIG_DIR = __dirname + "/config/";
 import config from "config";
 
 import requireDir from "require-dir";
-const routers = requireDir("./routes", { recurse: true });
 
 import log4js from "./lib/modules/log4js";
 const logger = log4js.getLogger();
@@ -93,54 +92,22 @@ if (config.has("useNodeModulePathList")) {
 
 // 全ページ共通処理
 app.use(function(req, res, next) {
-	Promise.all([Category.get(), Entries.getEntryListByLimitCount(1, 5)]).then(function([categorys, entries]) {
-		Object.assign(res.locals, config.get("locals"));
+	Object.assign(res.locals, config.get("locals"));
 
-		const descriptions = res.locals.descriptions;
-		if (Array.isArray(descriptions)) {
-			res.locals.descriptions = descriptions.join("\n");
-		} else if (!descriptions) {
-			res.locals.descriptions = "";
-		}
-
-		const menu = res.locals.menu;
-		if (!menu || !Array.isArray(menu)) {
-			res.locals.menu = [];
-		}
-
-		const systemMenu = res.locals.systemMenu;
-		if (!systemMenu || !Array.isArray(systemMenu)) {
-			res.locals.systemMenu = [];
-		}
-
-		// デバイス情報を設定する
-		res.locals.device = isDevice(req);
-
-		// 最新の記事を設定する
-		const contents: { title: string; id: number }[] = [];
-		entries.forEach(function(value) {
-			contents.push({ title: value.title, id: value.id });
-		});
-		res.locals.latestContents = contents;
-
-		// カテゴリー一覧を設定する
-		const maxCategory: number = config.get("maxCategory") || 5;
-		const categoryList = categorys
-			.sort((a, b) => b.id - a.id)
-			.reduce((v: string[], current, index, array) => {
-				if (v.indexOf(current.name) === -1) {
-					v.push(current.name);
-				}
-				if (v.length >= maxCategory) {
-					array.splice(1);
-				}
-				return v;
-			}, []);
-		res.locals.categoryList = categoryList;
-
-		next();
-	});
+	const descriptions = res.locals.descriptions;
+	if (Array.isArray(descriptions)) {
+		res.locals.descriptions = descriptions.join("\n");
+	}
+	// デバイス情報を設定する
+	res.locals.device = isDevice(req);
+	next();
 });
+
+// 全ページ共通処理を読み込む
+const handlerList = requireDir("./lib/handler/beforeHandler");
+for (const handler of Object.values(handlerList)) {
+	app.use(handler.process());
+}
 
 // 再帰的にrouterを読み込む
 function routerUse(url: string, routers: object): string | void {
@@ -153,6 +120,7 @@ function routerUse(url: string, routers: object): string | void {
 		app.use(routerUrl, router);
 	}
 }
+const routers = requireDir("./routes", { recurse: true });
 routerUse("/", routers);
 
 // catch 404 and forward to error handler
