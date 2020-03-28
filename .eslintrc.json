@@ -20,7 +20,7 @@
 	},
 	"rules": {
 		"block-scoped-var": "warn",
-		"no-unused-vars": "warn",
+		"no-unused-vars": "off",
 		"complexity": ["error", { "max": 10 }],
 		"max-classes-per-file": ["error", 1],
 		"no-alert": "error",
