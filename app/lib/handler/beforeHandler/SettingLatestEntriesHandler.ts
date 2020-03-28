@@ -7,7 +7,7 @@ import EntryService from "../../service/EntryService";
 const LIMIT_ENTRIES = 5;
 
 class SettingLatestEntriesHandler {
-	private static readonly LIMIT_ENTRIES: number = config.get("limit.entries") || LIMIT_ENTRIES;
+	private static readonly LIMIT_ENTRIES: number = config.get("limit.latestEntries") || LIMIT_ENTRIES;
 
 	public static process(): RequestHandler {
 		return (req, res, next): void => {
