@@ -3,29 +3,11 @@ import config from "config";
 import Entries from "../database/Entries";
 
 import EntryData from "../class/model/EntryData";
-
-import { IEntries } from "../definitions/database/Entries";
 import Category from "../database/Category";
+import { IGetEntries, IGetEntry, IGetEntriesByCategoryName, IGetLatestEntries } from "../definitions/service/entry";
 
 // 一覧の記事数
 const MAX_ENTRIES = 10;
-
-export interface IGetEntries {
-	entryList: EntryData[];
-	entryCount: number;
-}
-
-export interface IGetEntry {
-	entry: EntryData;
-	nextEntry: IEntries;
-	backEntry: IEntries;
-}
-
-export type IGetEntriesByCategoryName = IGetEntries;
-
-export interface IGetLatestEntries {
-	entryList: EntryData[];
-}
 
 class EntryService {
 	private readonly MAX_ENTRIES: number = config.get("limit.entries") || MAX_ENTRIES;

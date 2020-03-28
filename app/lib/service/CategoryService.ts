@@ -1,17 +1,6 @@
 import Category from "../database/Category";
 import CategoryData from "../class/model/CategoryData";
-
-export interface ICategryDict {
-	[name: string]: CategoryData;
-}
-
-export interface IGetCategories {
-	categoryList: CategoryData[];
-}
-
-export interface IGetCategoriesByLimit {
-	categoryList: CategoryData[];
-}
+import { IGetCategories, IGetCategoriesByLimit, ICategryDict } from "../definitions/service/category";
 
 class CategoryService {
 	public async getCategories(): Promise<IGetCategories> {
