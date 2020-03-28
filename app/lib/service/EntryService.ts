@@ -28,7 +28,7 @@ export interface IGetLatestEntries {
 }
 
 class EntryService {
-	private readonly MAX_ENTRIES: number = config.get("maxEntries") || MAX_ENTRIES;
+	private readonly MAX_ENTRIES: number = config.get("limit.entries") || MAX_ENTRIES;
 
 	public async getEntries(page: number): Promise<IGetEntries> {
 		const entryList = await Entries.getEntryListByLimitCount((page - 1) * this.MAX_ENTRIES, this.MAX_ENTRIES);
@@ -86,8 +86,8 @@ class EntryService {
 		};
 	}
 
-	public async getLatestEntries(): Promise<IGetLatestEntries> {
-		const entryList = await Entries.getEntryListByLimitCount(1, 5);
+	public async getLatestEntries(limit: number): Promise<IGetLatestEntries> {
+		const entryList = await Entries.getEntryListByLimitCount(1, limit);
 		const entryDataList = await Promise.all(entryList.map(entry => new EntryData(entry).createEntry()));
 
 		return {

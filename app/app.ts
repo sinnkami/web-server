@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, CookieOptions } from "express";
 import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
@@ -47,8 +47,8 @@ if (config.has("favicon.use") && config.get("favicon.use")) {
 	app.use(favicon(faviconPath));
 }
 
-if (config.has("logger") && config.get("logger")) {
-	const options: object = config.get("logger.connectLoggerOptions");
+if (config.has("modules.log4js") && config.get("modules.log4js")) {
+	const options: object = config.get("modules.log4js.connectLoggerOptions");
 	app.use(log4js.connectLogger(logger, options));
 }
 
@@ -56,11 +56,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const sessionSecret: string = config.get("session.secret");
-const sessionCookieConfig: {
-	secure: boolean;
-	maxAge: number;
-} = config.get("session.cookie");
+const sessionSecret: string = config.get("modules.session.secret");
+const sessionCookieConfig: CookieOptions = config.get("modules.session.cookie");
 app.use(
 	session({
 		secret: sessionSecret,
@@ -75,11 +72,11 @@ app.use(
 	})
 );
 
-const publicFolderPath: string = config.get("publicFolderPath");
+const publicFolderPath: string = config.get("public.path");
 
 app.use(express.static(publicFolderPath));
-if (config.has("useNodeModulePathList")) {
-	const useNodeModulePath = config.get("useNodeModulePathList");
+if (config.has("public.useNodeModules")) {
+	const useNodeModulePath = config.get("public.useNodeModules");
 	if (Array.isArray(useNodeModulePath)) {
 		const moduleList = [];
 		for (const modulePath of useNodeModulePath) {
@@ -87,7 +84,7 @@ if (config.has("useNodeModulePathList")) {
 		}
 		app.use("/module", moduleList);
 	} else {
-		logger.warn("'useNodeModulePath' is not an array");
+		logger.warn("'useNodeModules' is not an array");
 	}
 }
 

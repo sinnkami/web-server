@@ -1,5 +1,6 @@
 import moment from "moment";
 import cheerio from "cheerio";
+import config from "config";
 
 import Category from "../../database/Category";
 import Comment from "../../database/Comment";
@@ -42,8 +43,7 @@ class EntryData {
 		this.comments = comments;
 
 		// 時間を変換する
-		// TODO: 定数化
-		const dateFormat = options.dateFormat || "YYYY/MM/DD HH時mm分";
+		const dateFormat = options.dateFormat || config.get("dateFormat");
 		this.createAt = moment(this.createAt).format(dateFormat);
 		this.updateAt = moment(this.updateAt).format(dateFormat);
 

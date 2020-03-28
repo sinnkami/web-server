@@ -28,7 +28,6 @@ class ResponseLog {
 
 		let fileName = logEvent.fileName;
 		const fileList = fileName.split(path.sep);
-		// TODO: 定数化
 		if (fileList.length > 2) {
 			fileName = fileList.slice(-2).join(path.sep);
 		}

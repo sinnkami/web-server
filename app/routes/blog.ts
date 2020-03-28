@@ -4,6 +4,8 @@ const router = express.Router();
 import log4js from "../lib/modules/log4js";
 const logger = log4js.getLogger();
 
+import config from "config";
+
 import TwitterCard from "../lib/class/model/TwitterCard";
 
 import EntryService from "../lib/service/EntryService";
@@ -32,9 +34,8 @@ router.get("/entry/:id(\\d+)", function(req, res, next) {
 	EntryService.getEntry(entryId)
 		.then(async function(value) {
 			const twitterCard = new TwitterCard({
-				// TODO: 定数化
-				card: "summary_large_image",
-				site: "@sinnkami_",
+				card: config.get("twitter.cardType"),
+				site: config.get("twitter.user"),
 				title: value.entry.title,
 				url: `https://${req.get("host")}/blog/entry/${value.entry.id}`,
 			});

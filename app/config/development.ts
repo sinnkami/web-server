@@ -1,6 +1,6 @@
 const config = {
+	port: 8080,
 	locals: {},
-	maxCategory: 5,
 	descriptions: ["テスト", "なんか", "書いた", "知らんけど", "( ・∇・)"],
 	imageServerURL: "http://localhost:5000",
 	menu: [
@@ -14,6 +14,10 @@ const config = {
 		{ name: "記事を編集する", transition: "/system/blog/edit", device: "" },
 		{ name: "お問い合わせ等を確認する", transition: "/system/question", device: "" },
 	],
+
+	twitter: {
+		user: "@sinnkami_",
+	},
 };
 
 const locals = {
