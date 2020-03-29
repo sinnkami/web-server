@@ -18,6 +18,14 @@ const config = {
 	twitter: {
 		user: "@sinnkami_",
 	},
+	modules: {
+		session: {
+			cookie: {
+				// ローカルホストではhttps通信では無い為、こうしないとセッションのやりとりがされない
+				secure: false,
+			},
+		},
+	},
 };
 
 const locals = {

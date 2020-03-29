@@ -4,6 +4,9 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import session from "express-session";
 
+import passport from "passport";
+import { Strategy } from "passport-local";
+
 process.env.NODE_CONFIG_DIR = __dirname + "/config/";
 import config from "config";
 
@@ -72,6 +75,29 @@ app.use(
 	})
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+
+passport.use(
+	new Strategy(
+		{
+			usernameField: "username",
+			passwordField: "password",
+			passReqToCallback: true,
+		},
+		function(req, username, password, done) {
+			// TODO: テスト用
+			if (username === "test") {
+				return done(null, username);
+			}
+			return done(null, false, { message: "パスワードが正しくありません。" });
+		}
+	)
+);
+
 const publicFolderPath: string = config.get("public.path");
 
 app.use(express.static(publicFolderPath));
@@ -106,6 +132,14 @@ for (const handler of Object.values(handlerList)) {
 	app.use(handler.process());
 }
 
+app.all("/system*", (req, res, next) => {
+	if (req.isAuthenticated()) {
+		return next();
+	} else {
+		return next("NotFound");
+	}
+});
+
 // 再帰的にrouterを読み込む
 function routerUse(url: string, routers: object): string | void {
 	for (const [name, router] of Object.entries(routers)) {
@@ -120,9 +154,7 @@ function routerUse(url: string, routers: object): string | void {
 routerUse("/", routers);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-	return next("NotFound");
-});
+app.use((req, res, next) => next("NotFound"));
 
 // error handler
 app.use(
