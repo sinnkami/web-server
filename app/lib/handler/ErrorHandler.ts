@@ -17,7 +17,7 @@ class ErrorHandler {
 	}
 
 	private static errorContents(data: string): HttpException {
-		const error = new HttpException();
+		const error = new HttpException(data);
 		switch (data) {
 			// 400番台
 			case "Bad Request":

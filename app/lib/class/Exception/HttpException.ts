@@ -3,8 +3,8 @@ class HttpException extends Error {
 	public title!: string;
 	public message!: string;
 
-	constructor() {
-		super();
+	constructor(error?: string) {
+		super(error);
 	}
 }
 
