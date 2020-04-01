@@ -1,6 +1,0 @@
-div.latest-contents.box
-    span.overview 最新の記事
-    ul.items
-        - for (let data of latestContents)
-            li.item-list
-                a.item-link(href=`/blog/entry/${data.id}`) #{data.title}

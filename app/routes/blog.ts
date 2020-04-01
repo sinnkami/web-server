@@ -16,7 +16,7 @@ router.get("/", function(req, res, next) {
 	const page = Number(req.query.page) || 1;
 	EntryService.getEntries(page)
 		.then(function(value) {
-			res.render("main/blog", {
+			res.render("pages/blog", {
 				contents: value.entryList,
 				currentPage: page,
 				maxPage: Math.ceil(value.entryCount / 10),
@@ -39,7 +39,7 @@ router.get("/entry/:id(\\d+)", function(req, res, next) {
 				title: value.entry.title,
 				url: `https://${req.get("host")}/blog/entry/${value.entry.id}`,
 			});
-			res.render("main/blog", {
+			res.render("pages/blog", {
 				contents: [value.entry],
 				next: value.nextEntry ? value.nextEntry.id : "",
 				back: value.backEntry ? value.backEntry.id : "",
@@ -60,7 +60,7 @@ router.get("/category", function(req, res, next) {
 	CategoryService.getCategories()
 		.then(function(value) {
 			const nameList = value.categoryList.map(value => value.name);
-			res.render("main/lists", { listTitle: "カテゴリ一覧", href: "category", lists: nameList });
+			res.render("pages/lists", { listTitle: "カテゴリ一覧", href: "category", lists: nameList });
 		})
 		.catch(function(err) {
 			logger.error(err);
@@ -74,7 +74,7 @@ router.get(`/category/:name`, function(req, res, next) {
 	const page = Number(req.query.page) || 1;
 	EntryService.getEntriesByCategoryName(name, page)
 		.then(function(value) {
-			res.render("main/blog", {
+			res.render("pages/blog", {
 				contents: value.entryList,
 				currentPage: page,
 				maxPage: Math.ceil(value.entryCount / 10),

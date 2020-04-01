@@ -1,0 +1,22 @@
+extends /layout/default
+block meta
+	link(rel="stylesheet" href="/css/layout/list.css")
+	link(rel="stylesheet" href="/css/layout/profile.css")
+	link(rel="stylesheet" href="/css/layout/latest-contents.css")
+	link(rel="stylesheet" href="/css/layout/category-list.css")
+	link(rel="stylesheet" href="/css/layout/tweet-timeline.css")
+
+block main
+	div.lists.box
+		span.overview #{listTitle}
+		ul.items
+			- for (let list of lists)
+				li.item-list
+					a.item-link(href=`/blog/${href}/${list}`) #{list}
+
+
+block sub
+	include /components/parts/profile
+	include /components/list/latest-contents
+	include /components/list/category
+	include /components/twitter/timeline
