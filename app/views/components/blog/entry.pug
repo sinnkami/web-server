@@ -5,7 +5,7 @@ div.entry.box.ql-container.ql-snow
 		p.category
 			| カテゴリ名 :
 			a(href=`/blog/category/${data.category.name}`) #{data.category.name}
-	div.ql-editor!=data.body
+	div.body!=data.body
 	div.footer
 		p.createAt 投稿日 : #{data.createAt}
 		p.updateAt 編集日 : #{data.updateAt}
