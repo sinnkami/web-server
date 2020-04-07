@@ -160,7 +160,7 @@ app.use((req, res, next) => next("NotFound"));
 app.use(
 	ErrorHandler.process(function(error: HttpException, req: Request, res: Response) {
 		res.status(error.status || 500);
-		res.render("error", {
+		res.render("pages/error", {
 			errorTitle: error.title,
 			errorMessage: error.message,
 			errorStatus: error.status,
