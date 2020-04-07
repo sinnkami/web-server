@@ -111,7 +111,9 @@ const config = {
 		useNodeModules: [
 			path.join(dirName, "node_modules", "jquery", "dist"),
 			path.join(dirName, "node_modules", "slicknav", "dist"),
-			path.join(dirName, "node_modules", "quill", "dist"),
+			path.join(dirName, "node_modules", "summernote", "dist"),
+			path.join(dirName, "node_modules", "bootstrap", "dist"),
+			path.join(dirName, "node_modules", "bootstrap-navbar-sidebar", "dist"),
 		],
 	},
 
