@@ -1,0 +1,11 @@
+nav
+	ul.pager
+		li.previous(class={disabled: currentPage <= 1})
+			a(href=`/system/blog?page=${currentPage-1}`) 前へ
+		li.next(class={disabled: maxPage === currentPage})
+			a(href=`/system/blog?page=${currentPage+1}`) 次へ
+
+// TODO: aタグが無効になっていない
+//- a.disabled{
+//-     pointer-events: none;
+//- }
