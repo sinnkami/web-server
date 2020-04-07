@@ -10,6 +10,7 @@ class SQL {
 	private connection!: Connection;
 
 	constructor() {
+		// TODO: キャッシュして高速化を図りたい
 		// TODO: コネクションプールを使用してパフォーマンスを良くしたい
 		mysql
 			.createConnection({
@@ -19,7 +20,7 @@ class SQL {
 				database: config.get("db.name"),
 				insecureAuth: true,
 			})
-			.then(connection => {
+			.then((connection) => {
 				this.connection = connection;
 			});
 	}
