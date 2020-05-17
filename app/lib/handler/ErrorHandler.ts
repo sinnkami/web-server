@@ -25,27 +25,28 @@ class ErrorHandler {
 				error.title = "不正なリクエストです";
 				error.message = "";
 				return error;
-				break;
 			case "Unauthorized":
 				error.status = 401;
 				error.title = "許可されていない行為です";
 				error.message = "権限を所持していません。";
 				return error;
-				break;
 			case "NotFound":
 				error.status = 404;
 				error.title = "そのようなページは存在しません";
 				error.message = "URLが間違っているか、対象のページが削除された可能性があります。";
 				return error;
-				break;
 
 			// 500番台
+			case "InternalServer":
+				error.status = 500;
+				error.title = "サーバーでエラーが発生しました";
+				error.message = "管理者へお問い合わせ下さい";
+				return error;
 			case "NotImplemented":
 				error.status = 501;
 				error.title = "未実装です。";
 				error.message = "実装まで今しばらくお待ちください。";
 				return error;
-				break;
 			default:
 				return error;
 		}
