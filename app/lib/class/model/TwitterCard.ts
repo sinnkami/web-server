@@ -27,13 +27,13 @@ class TwitterCard implements ITwitterCard {
 	}
 
 	public async createTwitterCard(entry: EntryData): Promise<this> {
-		this.image = await this.getFirstImageSrc(entry.body);
-		this.description = await this.createDescription(entry.body);
+		this.image = await this.getFirstImageSrc(entry.content);
+		this.description = await this.createDescription(entry.content);
 		return this;
 	}
 
-	private async getFirstImageSrc(body: string): Promise<string> {
-		const $ = cheerio.load(`${body}`);
+	private async getFirstImageSrc(content: string): Promise<string> {
+		const $ = cheerio.load(`${content}`);
 		return (
 			$("img")
 				.first()

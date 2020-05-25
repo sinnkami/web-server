@@ -15,31 +15,31 @@ export interface IEntryOptions {
 }
 
 class EntryData {
-	public id: number;
+	public entryID: number;
 	public author: string;
 	public title: string;
-	public body: string;
+	public content: string;
 	public createAt: string;
 	public updateAt: string;
 	public category?: ICategory;
 	public comments: IComment[] = [];
 
 	public constructor(entry: IEntries) {
-		this.id = entry.id;
+		this.entryID = entry.entryID;
 		this.author = entry.author;
 		this.title = entry.title;
-		this.body = entry.body;
-		this.createAt = entry.create_at.toISOString();
-		this.updateAt = entry.update_at.toISOString();
+		this.content = entry.content;
+		this.createAt = entry.createAt.toISOString();
+		this.updateAt = entry.updateAt.toISOString();
 	}
 
 	public async createEntry(options: IEntryOptions = {}): Promise<this> {
 		// カテゴリーを設定する
-		const category = await Category.getById(this.id);
+		const category = await Category.getById(this.entryID);
 		this.category = category;
 
 		// コメントを設定する
-		const comments = await Comment.getCommentListByEntryId(this.id);
+		const comments = await Comment.getCommentListByEntryId(this.entryID);
 		this.comments = comments;
 
 		// 時間を変換する
@@ -48,7 +48,7 @@ class EntryData {
 		this.updateAt = moment(this.updateAt).format(dateFormat);
 
 		// 「続きを読む」が存在するかどうか
-		this.body = options.addMoreTag ? await this.addMoreTag(this.id, this.body) : this.body;
+		this.content = options.addMoreTag ? await this.addMoreTag(this.entryID, this.content) : this.content;
 
 		return this;
 	}

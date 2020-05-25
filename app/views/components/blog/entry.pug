@@ -1,11 +1,11 @@
 div.entry.box.ql-container.ql-snow
 	div.header
 		h1.title
-			a(href=`/blog/entry/${data.id}`) #{data.title}
+			a(href=`/blog/entry/${data.entryID}`) #{data.title}
 		p.category
 			| カテゴリ名 :
 			a(href=`/blog/category/${data.category.name}`) #{data.category.name}
-	div.body!=data.body
+	div.content!=data.content
 	div.footer
 		p.createAt 投稿日 : #{data.createAt}
 		p.updateAt 編集日 : #{data.updateAt}

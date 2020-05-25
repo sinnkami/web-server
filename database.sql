@@ -2,31 +2,31 @@ DROP DATABASE IF EXISTS `sinnkami-web`;
 CREATE DATABASE `sinnkami-web`;
 USE `sinnkami-web`;
 CREATE TABLE `Entries` (
-    `id` int not null auto_increment,
+    `entryID` int not null auto_increment,
     `author` varchar(30) CHARACTER SET utf8mb4,
     `title` varchar(30) CHARACTER SET utf8mb4,
-    `body` text CHARACTER SET utf8mb4,
-    `create_at` datetime,
-    `update_at` datetime,
-    PRIMARY KEY(`id`)
+    `content` text CHARACTER SET utf8mb4,
+    `createAt` datetime,
+    `updateAt` datetime,
+    PRIMARY KEY(`entryID`)
 );
 
 CREATE TABLE `Comment` (
-    `id` int not null auto_increment,
-    `entryId` int not null,
+    `commentID` int not null auto_increment,
+    `entryID` int not null,
     `author` varchar(30) CHARACTER SET utf8mb4,
-    `body` text CHARACTER SET utf8mb4,
-    `create_at` datetime,
+    `content` text CHARACTER SET utf8mb4,
+    `createAt` datetime,
     `ip` varchar(15) not null,
     `device` varchar(255) CHARACTER SET utf8mb4,
-    PRIMARY KEY(`id`)
+    PRIMARY KEY(`commentID`)
 );
 
 CREATE TABLE `Category` (
-    `id` int not null auto_increment,
+    `categoryID` int not null auto_increment,
+	`entryID` int not null,
     `name` varchar(20) CHARACTER SET utf8mb4,
-    `entryId` int not null,
-    PRIMARY KEY(`id`)
+    PRIMARY KEY(`categoryID`)
 );
 
 CREATE TABLE `AccsessLog` (
@@ -34,9 +34,9 @@ CREATE TABLE `AccsessLog` (
     `method` varchar(5) CHARACTER SET utf8mb4,
     `status` int,
     `url` varchar(255) CHARACTER SET utf8mb4,
-    `response_time` double,
+    `responseTime` double,
     `ip` varchar(16) CHARACTER SET utf8mb4,
-    `user_agent` text CHARACTER SET utf8mb4,
-    `create_at` datetime,
+    `userAgent` text CHARACTER SET utf8mb4,
+    `createAt` datetime,
     PRIMARY KEY(`id`)
 );

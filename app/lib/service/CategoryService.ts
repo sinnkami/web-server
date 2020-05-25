@@ -11,7 +11,7 @@ class CategoryService {
 	public async getCategoriesByLimit(limit: number): Promise<IGetCategoriesByLimit> {
 		const categoryList = await Category.getCategoryListByLimit(limit);
 		return {
-			categoryList: categoryList.map(category => new CategoryData(category)),
+			categoryList: categoryList.map((category) => new CategoryData(category)),
 		};
 	}
 
@@ -21,7 +21,7 @@ class CategoryService {
 		for (const category of categoryList) {
 			const key = category.name;
 			if (categoryDict[`${key}`]) {
-				categoryDict[`${key}`].addEntryId(category.entryId);
+				categoryDict[`${key}`].addEntryId(category.entryID);
 			} else {
 				categoryDict[`${key}`] = new CategoryData(category);
 			}

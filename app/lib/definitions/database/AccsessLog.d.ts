@@ -3,8 +3,8 @@ export interface IAccsessLog {
 	method: string;
 	status: number;
 	url: string;
-	response_time: number;
+	responseTime: number;
 	ip: string;
-	user_agent: string;
-	create_at: Date;
+	userAgent: string;
+	createAt: Date;
 }

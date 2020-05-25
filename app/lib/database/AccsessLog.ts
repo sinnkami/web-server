@@ -17,8 +17,8 @@ class AccsessLog extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -27,8 +27,8 @@ class AccsessLog extends SQL {
 			.delete()
 			.from(this.tableName)
 			.where("create_at < ?", date)
-			.toParam();
-		const results = await this.delete(sql.text, sql.values);
+			.toString();
+		const results = await this.delete(sql);
 		return results;
 	}
 }

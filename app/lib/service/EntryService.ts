@@ -19,7 +19,7 @@ class EntryService {
 		const entryCount = await Entries.getEntriyCount();
 
 		const entryDataList = await Promise.all(
-			entryList.map(entry => new EntryData(entry).createEntry({ addMoreTag: true }))
+			entryList.map((entry) => new EntryData(entry).createEntry({ addMoreTag: true }))
 		);
 
 		return {
@@ -48,7 +48,7 @@ class EntryService {
 		const categoryList = await Category.getByName(name);
 		if (!categoryList.length) throw new Error("カテゴリが取得できませんでした");
 
-		const entriIdList = categoryList.map(v => v.entryId);
+		const entriIdList = categoryList.map((v) => v.entryID);
 		const entryList = await Entries.getEntryListByIdsAndLimitCount(
 			entriIdList,
 			(page - 1) * this.MAX_ENTRIES,
@@ -59,7 +59,7 @@ class EntryService {
 		const entryCount = await Entries.getEntriyCountByIds(entriIdList);
 
 		const entryDataList = await Promise.all(
-			entryList.map(entry => new EntryData(entry).createEntry({ addMoreTag: true }))
+			entryList.map((entry) => new EntryData(entry).createEntry({ addMoreTag: true }))
 		);
 
 		return {
@@ -70,7 +70,7 @@ class EntryService {
 
 	public async getLatestEntries(limit: number): Promise<IGetLatestEntries> {
 		const entryList = await Entries.getEntryListByLimitCount(1, limit);
-		const entryDataList = await Promise.all(entryList.map(entry => new EntryData(entry).createEntry()));
+		const entryDataList = await Promise.all(entryList.map((entry) => new EntryData(entry).createEntry()));
 
 		return {
 			entryList: entryDataList,

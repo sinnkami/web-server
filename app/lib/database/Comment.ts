@@ -17,8 +17,8 @@ class Comment extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -27,8 +27,8 @@ class Comment extends SQL {
 			.select()
 			.from(this.tableName)
 			.where("entryID = ?", entryId)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -36,14 +36,14 @@ class Comment extends SQL {
 		const sql = squelMysql
 			.insert()
 			.into(this.tableName)
-			.set("entryId", data.entryId)
+			.set("entryID", data.entryID)
 			.set("author", data.author)
-			.set("body", data.body)
-			.set("create_at", data.create_at)
+			.set("content", data.content)
+			.set("createAt", data.createAt)
 			.set("ip", data.ip)
 			.set("device", data.device)
-			.toParam();
-		const results = await this.insert(sql.text, sql.values);
+			.toString();
+		const results = await this.insert(sql);
 		return results;
 	}
 }

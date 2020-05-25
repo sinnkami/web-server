@@ -37,12 +37,12 @@ router.get("/entry/:id(\\d+)", function(req, res, next) {
 				card: config.get("twitter.cardType"),
 				site: config.get("twitter.user"),
 				title: value.entry.title,
-				url: `https://${req.get("host")}/blog/entry/${value.entry.id}`,
+				url: `https://${req.get("host")}/blog/entry/${value.entry.entryID}`,
 			});
 			res.render("pages/blog", {
 				contents: [value.entry],
-				next: value.nextEntry ? value.nextEntry.id : "",
-				back: value.backEntry ? value.backEntry.id : "",
+				next: value.nextEntry ? value.nextEntry.entryID : "",
+				back: value.backEntry ? value.backEntry.entryID : "",
 				comments: value.entry.comments.length
 					? value.entry.comments
 					: [{ body: "<p>コメントがありません</p>" }],
@@ -59,7 +59,7 @@ router.get("/entry/:id(\\d+)", function(req, res, next) {
 router.get("/category", function(req, res, next) {
 	CategoryService.getCategories()
 		.then(function(value) {
-			const nameList = value.categoryList.map(value => value.name);
+			const nameList = value.categoryList.map((value) => value.name);
 			res.render("pages/lists", { listTitle: "カテゴリ一覧", href: "category", lists: nameList });
 		})
 		.catch(function(err) {

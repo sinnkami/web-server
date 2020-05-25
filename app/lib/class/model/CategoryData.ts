@@ -12,7 +12,7 @@ class CategoryData implements ICategoryData {
 	public count: number;
 
 	public constructor(category: ICategory) {
-		this.entryIdList.push(category.entryId);
+		this.entryIdList.push(category.entryID);
 		this.name = category.name;
 		this.count = this.entryIdList.length;
 	}

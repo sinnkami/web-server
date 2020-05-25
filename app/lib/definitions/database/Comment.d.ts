@@ -1,9 +1,9 @@
 export interface IComment {
-	id: number;
-	entryId: number;
+	commentID: number;
+	entryID: number;
 	author: string;
-	body: string;
-	create_at: Date;
+	content: string;
+	createAt: Date;
 	ip: string;
 	device: string;
 }

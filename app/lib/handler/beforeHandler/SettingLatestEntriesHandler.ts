@@ -13,9 +13,10 @@ class SettingLatestEntriesHandler {
 		return (req, res, next): void => {
 			// 最新の記事を設定する
 			EntryService.getLatestEntries(this.LIMIT_ENTRIES).then(function(value) {
+				// TODO: 型定義
 				const contents: { title: string; id: number }[] = [];
 				value.entryList.forEach(function(value) {
-					contents.push({ title: value.title, id: value.id });
+					contents.push({ title: value.title, id: value.entryID });
 				});
 				res.locals.latestContents = contents;
 

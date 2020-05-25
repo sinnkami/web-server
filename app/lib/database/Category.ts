@@ -17,8 +17,8 @@ class Category extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -26,9 +26,9 @@ class Category extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("id = ?", id)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.where("categoryID = ?", id)
+			.toString();
+		const results = await this.select(sql);
 		return results[0];
 	}
 
@@ -37,8 +37,8 @@ class Category extends SQL {
 			.select()
 			.from(this.tableName)
 			.where("name = ?", name)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -49,8 +49,8 @@ class Category extends SQL {
 			.from(this.tableName)
 			.limit(limit)
 			.group("name")
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 }

@@ -1,8 +1,8 @@
 export interface IEntries {
-	id: number;
+	entryID: number;
 	author: string;
 	title: string;
-	body: string;
-	create_at: Date;
-	update_at: Date;
+	content: string;
+	createAt: Date;
+	updateAt: Date;
 }

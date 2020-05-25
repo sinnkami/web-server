@@ -17,8 +17,8 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -26,9 +26,9 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("id = ?", id)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.where("entryID = ?", id)
+			.toString();
+		const results = await this.select(sql);
 		return results[0];
 	}
 
@@ -36,9 +36,9 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("id IN ?", ids)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.where("entryID IN ?", ids)
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -46,11 +46,11 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("id < ?", id)
-			.order("id", false)
+			.where("entryID < ?", id)
+			.order("entryID", false)
 			.limit(1)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results[0];
 	}
 
@@ -58,11 +58,11 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("id > ?", id)
-			.order("id", true)
+			.where("entryID > ?", id)
+			.order("entryID", true)
 			.limit(1)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results[0];
 	}
 
@@ -72,9 +72,9 @@ class Entries extends SQL {
 			.from(this.tableName)
 			.limit(limit)
 			.offset(offset)
-			.order("id", false)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.order("entryID", false)
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -82,12 +82,12 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("id IN ?", ids)
+			.where("entryID IN ?", ids)
 			.limit(limit)
 			.offset(offset)
-			.order("id", false)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.order("entryID", false)
+			.toString();
+		const results = await this.select(sql);
 		return results;
 	}
 
@@ -96,8 +96,8 @@ class Entries extends SQL {
 			.select()
 			.from(this.tableName)
 			.field("COUNT(*)", "count")
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.toString();
+		const results = await this.select(sql);
 		return results[0].count;
 	}
 
@@ -106,9 +106,9 @@ class Entries extends SQL {
 			.select()
 			.from(this.tableName)
 			.field("COUNT(*)", "count")
-			.where("id IN ?", ids)
-			.toParam();
-		const results = await this.select(sql.text, sql.values);
+			.where("entryID IN ?", ids)
+			.toString();
+		const results = await this.select(sql);
 		return results[0].count;
 	}
 }

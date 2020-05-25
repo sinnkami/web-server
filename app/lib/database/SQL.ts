@@ -25,21 +25,24 @@ class SQL {
 			});
 	}
 
-	async select(sql: string, values: any[]): Promise<any[]> {
+	async select(sql: string): Promise<any[]> {
 		logger.debug(sql);
-		return this.connection.query(sql, values);
+		return this.connection.query(sql);
 	}
 
-	async insert(sql: string, values: any[]): Promise<any[]> {
-		return this.connection.query(sql, values);
+	async insert(sql: string): Promise<any[]> {
+		logger.debug(sql);
+		return this.connection.query(sql);
 	}
 
-	async update(sql: string, values: any[]): Promise<any[]> {
-		return this.connection.query(sql, values);
+	async update(sql: string): Promise<any[]> {
+		logger.debug(sql);
+		return this.connection.query(sql);
 	}
 
-	async delete(sql: string, values: any[]): Promise<any[]> {
-		return this.connection.query(sql, values);
+	async delete(sql: string): Promise<any[]> {
+		logger.debug(sql);
+		return this.connection.query(sql);
 	}
 }
 
