@@ -1,0 +1,27 @@
+extends /layout/system
+block meta
+	link(rel="stylesheet" type="text/css" href="/module/summernote.min.css")
+	script(src="/module/summernote.min.js" type="text/javascript" charset="utf-8")
+	script(src="/module/lang/summernote-ja-JP.min.js" type="text/javascript" charset="utf-8")
+	script(src="/scripts/system/blog-editor.js" type="text/javascript" charset="utf-8")
+
+block main
+	div.row
+		div.form-group
+			label 記事ID
+			input.form-control(name="id" type="text" readonly)
+		div.form-group
+			label タイトル
+			input.form-control(name="title" type="text" maxlength="30" placeholder="30文字以内")
+		div.form-group
+			label カテゴリー
+			input.form-control(name="category" type="text" maxlength="20" placeholder="20文字以内" autocomplete="on" list="category-data")
+			datalist#category-data
+				option(value="test")
+				option(value="hoge")
+		div.col-lg-12
+			div.form-group
+				label 記事
+				include /components/system/blog/entry-editor
+		div.col-lg-12
+			button#post-button.btn.btn-primary.btn-lg.btn-block(type="button" data-toggle="modal" data-target=".blog-editor-dialog" data-backdrop="static") 投稿
