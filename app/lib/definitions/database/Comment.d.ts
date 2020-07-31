@@ -1,6 +1,5 @@
 export interface IComment {
-	commentID: number;
-	entryID: number;
+	commentId: number;
 	author: string;
 	content: string;
 	createAt: Date;

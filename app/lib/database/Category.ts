@@ -26,7 +26,7 @@ class Category extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("categoryID = ?", id)
+			.where("categoryId = ?", id)
 			.toString();
 		const results = await this.select(sql);
 		return results[0];

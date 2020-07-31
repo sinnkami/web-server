@@ -1,8 +1,9 @@
 export interface IEntries {
-	entryID: number;
+	entryId: number;
 	author: string;
 	title: string;
 	content: string;
+	post: boolean;
 	createAt: Date;
 	updateAt: Date;
 }

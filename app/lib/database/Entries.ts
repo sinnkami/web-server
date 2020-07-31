@@ -26,7 +26,7 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryID = ?", id)
+			.where("entryId = ?", id)
 			.toString();
 		const results = await this.select(sql);
 		return results[0];
@@ -36,7 +36,7 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryID IN ?", ids)
+			.where("entryId IN ?", ids)
 			.toString();
 		const results = await this.select(sql);
 		return results;
@@ -46,8 +46,8 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryID < ?", id)
-			.order("entryID", false)
+			.where("entryId < ?", id)
+			.order("entryId", false)
 			.limit(1)
 			.toString();
 		const results = await this.select(sql);
@@ -58,8 +58,8 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryID > ?", id)
-			.order("entryID", true)
+			.where("entryId > ?", id)
+			.order("entryId", true)
 			.limit(1)
 			.toString();
 		const results = await this.select(sql);
@@ -72,7 +72,7 @@ class Entries extends SQL {
 			.from(this.tableName)
 			.limit(limit)
 			.offset(offset)
-			.order("entryID", false)
+			.order("entryId", false)
 			.toString();
 		const results = await this.select(sql);
 		return results;
@@ -82,10 +82,10 @@ class Entries extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryID IN ?", ids)
+			.where("entryId IN ?", ids)
 			.limit(limit)
 			.offset(offset)
-			.order("entryID", false)
+			.order("entryId", false)
 			.toString();
 		const results = await this.select(sql);
 		return results;
@@ -106,7 +106,7 @@ class Entries extends SQL {
 			.select()
 			.from(this.tableName)
 			.field("COUNT(*)", "count")
-			.where("entryID IN ?", ids)
+			.where("entryId IN ?", ids)
 			.toString();
 		const results = await this.select(sql);
 		return results[0].count;

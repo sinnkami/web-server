@@ -26,7 +26,7 @@ class Comment extends SQL {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryID = ?", entryId)
+			.where("entryId = ?", entryId)
 			.toString();
 		const results = await this.select(sql);
 		return results;
@@ -36,7 +36,6 @@ class Comment extends SQL {
 		const sql = squelMysql
 			.insert()
 			.into(this.tableName)
-			.set("entryID", data.entryID)
 			.set("author", data.author)
 			.set("content", data.content)
 			.set("createAt", data.createAt)

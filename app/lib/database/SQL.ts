@@ -22,25 +22,28 @@ class SQL {
 			})
 			.then((connection) => {
 				this.connection = connection;
+			})
+			.catch((err) => {
+				logger.error(err);
 			});
 	}
 
-	async select(sql: string): Promise<any[]> {
+	public async select(sql: string): Promise<any[]> {
 		logger.debug(sql);
 		return this.connection.query(sql);
 	}
 
-	async insert(sql: string): Promise<any[]> {
+	public async insert(sql: string): Promise<any[]> {
 		logger.debug(sql);
 		return this.connection.query(sql);
 	}
 
-	async update(sql: string): Promise<any[]> {
+	public async update(sql: string): Promise<any[]> {
 		logger.debug(sql);
 		return this.connection.query(sql);
 	}
 
-	async delete(sql: string): Promise<any[]> {
+	public async delete(sql: string): Promise<any[]> {
 		logger.debug(sql);
 		return this.connection.query(sql);
 	}
