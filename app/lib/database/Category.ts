@@ -41,18 +41,6 @@ class Category extends SQL {
 		const results = await this.select(sql);
 		return results;
 	}
-
-	async getCategoryListByLimit(limit: number): Promise<ICategory[]> {
-		const sql = squelMysql
-			.select()
-			.fields(["name"])
-			.from(this.tableName)
-			.limit(limit)
-			.group("name")
-			.toString();
-		const results = await this.select(sql);
-		return results;
-	}
 }
 
 export default new Category();

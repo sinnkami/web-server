@@ -31,20 +31,6 @@ class Comment extends SQL {
 		const results = await this.select(sql);
 		return results;
 	}
-
-	async insertComment(data: IComment): Promise<IComment[]> {
-		const sql = squelMysql
-			.insert()
-			.into(this.tableName)
-			.set("author", data.author)
-			.set("content", data.content)
-			.set("createAt", data.createAt)
-			.set("ip", data.ip)
-			.set("device", data.device)
-			.toString();
-		const results = await this.insert(sql);
-		return results;
-	}
 }
 
 export default new Comment();

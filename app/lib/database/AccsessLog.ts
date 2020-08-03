@@ -26,7 +26,7 @@ class AccsessLog extends SQL {
 		const sql = squelMysql
 			.delete()
 			.from(this.tableName)
-			.where("create_at < ?", date)
+			.where("createAt < ?", date)
 			.toString();
 		const results = await this.delete(sql);
 		return results;
