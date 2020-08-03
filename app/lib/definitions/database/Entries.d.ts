@@ -1,6 +1,6 @@
 export interface IEntries {
 	entryId: number;
-	author: string;
+	userId: number;
 	title: string;
 	content: string;
 	post: boolean;

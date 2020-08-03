@@ -4,12 +4,12 @@ USE `sinnkami-web`;
 
 CREATE TABLE `Entries` (
 	`entryId` int not null auto_increment,
-	`author` varchar(30) CHARACTER SET utf8mb4,
+	`userId` int not null,
 	`title` varchar(30) CHARACTER SET utf8mb4,
 	`content` text CHARACTER SET utf8mb4,
-	`post` boolean,
-	`createAt` datetime,
-	`updateAt` datetime,
+	`post` boolean default false,
+	`createAt` datetime default now(),
+	`updateAt` datetime default now(),
 	PRIMARY KEY(`entryId`)
 );
 
@@ -61,6 +61,26 @@ CREATE TABLE `AccsessLog` (
 	`responseTime` double,
 	`ip` varchar(16) CHARACTER SET utf8mb4,
 	`userAgent` text CHARACTER SET utf8mb4,
-	`createAt` datetime,
+	`createAt` datetime default now(),
 	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `User` (
+	`userId` int not null auto_increment,
+	`passwordId` int not null,
+	`name` varchar(20) CHARACTER SET utf8mb4,
+	`authority` tinyint(1) UNSIGNED,
+	`email` varchar(255) CHARACTER SET utf8mb4,
+	`isUse` boolean default false,
+	`createAt` datetime default now(),
+	PRIMARY KEY(`userId`, `passwordId`)
+);
+
+CREATE TABLE `UserPassword` (
+	`passwordId` int not null,
+	`password` varchar(255) CHARACTER SET utf8mb4,
+	`solt` int(5) not null,
+	`pepper` int(5) not null,
+	`createAt` datetime default now(),
+	PRIMARY KEY(`passwordId`)
 );
