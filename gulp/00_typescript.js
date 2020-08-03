@@ -7,7 +7,7 @@ const plumber = require("gulp-plumber");
 const ts = require("gulp-typescript");
 const tsProject = ts.createProject("tsconfig.json");
 
-gulp.task("typescript:normal", function() {
+gulp.task("typescript:normal", function () {
 	return gulp
 		.src([`${args.src}/**/*.ts`, `!${args.src}/**/*.min.*`, `!${args.src}/node_modules/**/*`])
 		.pipe(plumber())
@@ -18,8 +18,8 @@ gulp.task("typescript:normal", function() {
 		.pipe(gulp.dest(`${args.dest}/`));
 });
 
-gulp.task("typescript:min", function() {
+gulp.task("typescript:min", function () {
 	return gulp.src([`${args.src}/**/*.min.*`, `!${args.src}/node_modules/**/*`]).pipe(gulp.dest(`${args.dest}/`));
 });
 
-gulp.task("typescript", ["typescript:normal", "typescript:min"]);
+gulp.task("typescript", gulp.parallel("typescript:normal", "typescript:min"));

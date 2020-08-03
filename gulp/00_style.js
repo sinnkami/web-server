@@ -6,11 +6,11 @@ const gulpif = require("gulp-if");
 const gutil = require("gulp-util");
 const cleanCSS = require("gulp-clean-css");
 
-gulp.task("style:sass", function() {
+gulp.task("style:sass", function () {
 	return gulp
 		.src(`${args.src}/public/scss/**/*.scss`)
 		.pipe(
-			sass().on("error", function(error) {
+			sass().on("error", function (error) {
 				gutil.log(gutil.colors.red("Error (" + error.plugin + "): " + error.message));
 				this.emit("end");
 			})
@@ -19,15 +19,15 @@ gulp.task("style:sass", function() {
 		.pipe(gulp.dest(`${args.dest}/public/css/`));
 });
 
-gulp.task("style:css", function() {
+gulp.task("style:css", function () {
 	return gulp
 		.src(`${args.src}/public/css/**/*.css`)
 		.pipe(gulpif(args.compression, cleanCSS()))
 		.pipe(gulp.dest(`${args.dest}/public/css/`));
 });
 
-gulp.task("style:juqey-ui", function() {
+gulp.task("style:juqey-ui", function () {
 	return gulp.src(`${args.src}/public/css/jquery-ui/*.png`).pipe(gulp.dest(`${args.dest}/public/css/images/`));
 });
 
-gulp.task("style", ["style:sass", "style:css", "style:juqey-ui"]);
+gulp.task("style", gulp.parallel("style:sass", "style:css", "style:juqey-ui"));

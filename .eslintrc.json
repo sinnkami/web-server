@@ -6,7 +6,9 @@
 		// "plugin:prettier/recommended",
 		"prettier/@typescript-eslint"
 	],
-	"plugins": ["@typescript-eslint"],
+	"plugins": [
+		"@typescript-eslint"
+	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"sourceType": "module",
@@ -22,8 +24,16 @@
 	"rules": {
 		"block-scoped-var": "warn",
 		"no-unused-vars": "off",
-		"complexity": ["error", { "max": 10 }],
-		"max-classes-per-file": ["error", 1],
+		"complexity": [
+			"error",
+			{
+				"max": 10
+			}
+		],
+		"max-classes-per-file": [
+			"error",
+			1
+		],
 		"no-alert": "error",
 		"no-caller": "error",
 		"no-div-regex": "error",
@@ -31,30 +41,59 @@
 		"no-floating-decimal": "error",
 		"no-lone-blocks": "error",
 		"no-throw-literal": "error",
-		"comma-dangle": ["error", "always-multiline"],
-		"comma-spacing": ["error", { "before": false, "after": true }],
-		"comma-style": ["error", "last"],
-		"computed-property-spacing": ["error", "never"],
-		"func-call-spacing": ["error", "never"],
-		"indent": ["error", "tab", { "SwitchCase": 1 }],
+		"comma-dangle": [
+			"error",
+			"always-multiline"
+		],
+		"comma-spacing": [
+			"error",
+			{
+				"before": false,
+				"after": true
+			}
+		],
+		"comma-style": [
+			"error",
+			"last"
+		],
+		"computed-property-spacing": [
+			"error",
+			"never"
+		],
+		"func-call-spacing": [
+			"error",
+			"never"
+		],
+		"indent": [
+			"error",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
 		"new-parens": "error",
 		"no-lonely-if": "error",
 		"no-trailing-spaces": "error",
 		"no-whitespace-before-property": "error",
-		"object-curly-spacing": ["error", "always"],
-		"semi": ["error", "always"],
-		"semi-spacing": "error",
-		"semi-style": ["error", "last"],
-		"space-before-function-paren": ["error", "never"],
-		"space-infix-ops": "error",
-
-		// typescript
-		"@typescript-eslint/no-use-before-define": "off",
-		"@typescript-eslint/interface-name-prefix": [
+		"object-curly-spacing": [
 			"error",
-			{
-				"prefixWithI": "always"
-			}
-		]
+			"always"
+		],
+		"semi": [
+			"error",
+			"always"
+		],
+		"semi-spacing": "error",
+		"semi-style": [
+			"error",
+			"last"
+		],
+		"space-before-function-paren": [
+			"error",
+			"never"
+		],
+		"space-infix-ops": "error",
+		// typescript
+		"@typescript-eslint/no-use-before-define": "off"
 	}
 }
