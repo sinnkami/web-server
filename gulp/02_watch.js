@@ -1,8 +1,6 @@
 const gulp = require("gulp");
 const args = require("./lib/value");
 
-const gulp_sequence = require("gulp-sequence");
-
 gulp.task("watch:express", callback => {
 	if (!args.watch) {
 		return callback();
