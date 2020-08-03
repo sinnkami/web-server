@@ -30,22 +30,30 @@ class SQL {
 
 	public async select(sql: string): Promise<any[]> {
 		logger.debug(sql);
-		return this.connection.query(sql);
+		return this.connection.query(sql).catch(err => {
+			logger.error(err);
+		});
 	}
 
 	public async insert(sql: string): Promise<any[]> {
 		logger.debug(sql);
-		return this.connection.query(sql);
+		return this.connection.query(sql).catch(err => {
+			logger.error(err);
+		});
 	}
 
 	public async update(sql: string): Promise<any[]> {
 		logger.debug(sql);
-		return this.connection.query(sql);
+		return this.connection.query(sql).catch(err => {
+			logger.error(err);
+		});
 	}
 
 	public async delete(sql: string): Promise<any[]> {
 		logger.debug(sql);
-		return this.connection.query(sql);
+		return this.connection.query(sql).catch(err => {
+			logger.error(err);
+		});
 	}
 }
 
