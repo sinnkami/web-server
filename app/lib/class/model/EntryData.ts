@@ -15,8 +15,8 @@ export interface IEntryOptions {
 }
 
 class EntryData {
-	public entryID: number;
-	public author: string;
+	public entryId: number;
+	public userId: number;
 	public title: string;
 	public content: string;
 	public createAt: string;
@@ -25,8 +25,8 @@ class EntryData {
 	public comments: IComment[] = [];
 
 	public constructor(entry: IEntries) {
-		this.entryID = entry.entryID;
-		this.author = entry.author;
+		this.entryId = entry.entryId;
+		this.userId = entry.userId;
 		this.title = entry.title;
 		this.content = entry.content;
 		this.createAt = entry.createAt.toISOString();
@@ -35,12 +35,12 @@ class EntryData {
 
 	public async createEntry(options: IEntryOptions = {}): Promise<this> {
 		// カテゴリーを設定する
-		const category = await Category.getById(this.entryID);
-		this.category = category;
+		// const category = await Category.getById(this.entryId);
+		// this.category = category;
 
 		// コメントを設定する
-		const comments = await Comment.getCommentListByEntryId(this.entryID);
-		this.comments = comments;
+		// const comments = await Comment.getCommentListByEntryId(this.entryId);
+		// this.comments = comments;
 
 		// 時間を変換する
 		const dateFormat = options.dateFormat || config.get("dateFormat");
@@ -48,7 +48,7 @@ class EntryData {
 		this.updateAt = moment(this.updateAt).format(dateFormat);
 
 		// 「続きを読む」が存在するかどうか
-		this.content = options.addMoreTag ? await this.addMoreTag(this.entryID, this.content) : this.content;
+		this.content = options.addMoreTag ? await this.addMoreTag(this.entryId, this.content) : this.content;
 
 		return this;
 	}
@@ -65,8 +65,6 @@ class EntryData {
 		if (readMoreContents.length > 0) {
 			$contents.append(`<a href="/blog/entry/${entryId}">続きを読む</a>`);
 		}
-
-		console.log($contents.html());
 
 		return $contents.html() || "";
 	}

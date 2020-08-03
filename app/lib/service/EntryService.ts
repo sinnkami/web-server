@@ -34,7 +34,6 @@ class EntryService {
 
 		const nextEntry = await Entries.getNextEntry(entryId);
 		const backEntry = await Entries.getBackEntry(entryId);
-
 		const entryData = await new EntryData(entry).createEntry();
 
 		return {
@@ -44,29 +43,29 @@ class EntryService {
 		};
 	}
 
-	public async getEntriesByCategoryName(name: string, page: number): Promise<IGetEntriesByCategoryName> {
-		const categoryList = await Category.getByName(name);
-		if (!categoryList.length) throw new Error("カテゴリが取得できませんでした");
+	// public async getEntriesByCategoryName(name: string, page: number): Promise<IGetEntriesByCategoryName> {
+	// 	const categoryList = await Category.getByName(name);
+	// 	if (!categoryList.length) throw new Error("カテゴリが取得できませんでした");
 
-		const entriIdList = categoryList.map((v) => v.entryID);
-		const entryList = await Entries.getEntryListByIdsAndLimitCount(
-			entriIdList,
-			(page - 1) * this.MAX_ENTRIES,
-			this.MAX_ENTRIES
-		);
-		if (!entryList.length) throw new Error("記事が取得できませんでした");
+	// 	const entriIdList = categoryList.map((v) => v.entryId);
+	// 	const entryList = await Entries.getEntryListByIdsAndLimitCount(
+	// 		entriIdList,
+	// 		(page - 1) * this.MAX_ENTRIES,
+	// 		this.MAX_ENTRIES
+	// 	);
+	// 	if (!entryList.length) throw new Error("記事が取得できませんでした");
 
-		const entryCount = await Entries.getEntriyCountByIds(entriIdList);
+	// 	const entryCount = await Entries.getEntriyCountByIds(entriIdList);
 
-		const entryDataList = await Promise.all(
-			entryList.map((entry) => new EntryData(entry).createEntry({ addMoreTag: true }))
-		);
+	// 	const entryDataList = await Promise.all(
+	// 		entryList.map((entry) => new EntryData(entry).createEntry({ addMoreTag: true }))
+	// 	);
 
-		return {
-			entryList: entryDataList,
-			entryCount,
-		};
-	}
+	// 	return {
+	// 		entryList: entryDataList,
+	// 		entryCount,
+	// 	};
+	// }
 
 	public async getLatestEntries(limit: number): Promise<IGetLatestEntries> {
 		const entryList = await Entries.getEntryListByLimitCount(1, limit);
