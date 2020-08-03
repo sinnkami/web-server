@@ -84,3 +84,5 @@ CREATE TABLE `UserPassword` (
 	`createAt` datetime default now(),
 	PRIMARY KEY(`passwordId`)
 );
+
+INSERT INTO `Category` (`name`) VALUES ('未設定');
