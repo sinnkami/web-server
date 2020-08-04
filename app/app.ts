@@ -88,7 +88,7 @@ passport.use(
 			passwordField: "password",
 			passReqToCallback: true,
 		},
-		function(req, username, password, done) {
+		function (req, username, password, done) {
 			// TODO: テスト用
 			if (username === "test") {
 				return done(null, username);
@@ -115,7 +115,7 @@ if (config.has("public.useNodeModules")) {
 }
 
 // 全ページ共通処理
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	Object.assign(res.locals, config.get("locals"));
 
 	const descriptions = res.locals.descriptions;
@@ -136,7 +136,7 @@ app.all("/system*", (req, res, next) => {
 	if (req.isAuthenticated()) {
 		return next();
 	} else {
-		return next("NotFound");
+		return next(404);
 	}
 });
 
@@ -154,11 +154,11 @@ function routerUse(url: string, routers: object): string | void {
 routerUse("/", routers);
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => next("NotFound"));
+app.use((req, res, next) => next(404));
 
 // error handler
 app.use(
-	ErrorHandler.process(function(error: HttpException, req: Request, res: Response) {
+	ErrorHandler.process(function (error: HttpException, req: Request, res: Response) {
 		res.status(error.status || 500);
 		res.render("pages/error", {
 			errorTitle: error.title,

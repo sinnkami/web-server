@@ -21,7 +21,7 @@ router.get("/", function (req, res, next) {
 		})
 		.catch(function (err) {
 			logger.error(err);
-			next("NotFound");
+			next(404);
 		});
 });
 
@@ -32,7 +32,7 @@ router.get("/create", function (req, res, next) {
 		});
 	}).catch(function (err) {
 		logger.error(err);
-		next("NotFound");
+		next(404);
 	})
 });
 
@@ -52,7 +52,7 @@ router.post("/update", function (req, res, next) {
 			})
 			.catch(function (err) {
 				logger.error(err);
-				next("InternalServer");
+				next(500);
 			});
 	}
 });

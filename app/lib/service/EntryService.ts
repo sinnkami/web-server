@@ -8,16 +8,16 @@ import { IGetEntries, IGetEntry, IGetEntriesByCategoryName, IGetLatestEntries } 
 import { IUpdateEntryRequest } from "../definitions/routers/system/blog";
 import { IEntries } from "../definitions/database/Entries";
 import EntryCategory from "../database/EntryCategory";
-import ErrorHandler from "../handler/ErrorHandler";
 import Utility from "../modules/Utility";
+import ErrorService, { ErrorCode } from "./ErrorService";
 
 // 一覧の記事数
 const MAX_ENTRIES = 10;
 
 class EntryService {
-	private readonly MAX_ENTRIES: number = config.get("limit.entries") || MAX_ENTRIES;
+	private static readonly MAX_ENTRIES: number = config.get("limit.entries") || MAX_ENTRIES;
 
-	public async getEntries(page: number): Promise<IGetEntries> {
+	public static async getEntries(page: number): Promise<IGetEntries> {
 		const entryList = await Entries.getEntryListByLimitCount((page - 1) * this.MAX_ENTRIES, this.MAX_ENTRIES);
 		if (!entryList.length) throw new Error("記事が取得できませんでした");
 
@@ -33,7 +33,7 @@ class EntryService {
 		};
 	}
 
-	public async getEntry(entryId: number): Promise<IGetEntry> {
+	public static async getEntry(entryId: number): Promise<IGetEntry> {
 		const entry = await Entries.getById(entryId);
 		if (!entry) throw new Error("記事が取得できませんでした");
 
@@ -72,7 +72,7 @@ class EntryService {
 	// 	};
 	// }
 
-	public async getLatestEntries(limit: number): Promise<IGetLatestEntries> {
+	public static async getLatestEntries(limit: number): Promise<IGetLatestEntries> {
 		const entryList = await Entries.getEntryListByLimitCount(1, limit);
 		const entryDataList = await Promise.all(entryList.map((entry) => new EntryData(entry).createEntry()));
 
@@ -81,7 +81,7 @@ class EntryService {
 		};
 	}
 
-	public async insertEntry(req: IUpdateEntryRequest): Promise<IEntries> {
+	public static async insertEntry(req: IUpdateEntryRequest): Promise<IEntries> {
 		// TODO: デフォルトカテゴリー
 		const categoryId = req.categoryId ? req.categoryId : 1;
 		const title = req.title;
@@ -91,11 +91,11 @@ class EntryService {
 
 		// TODO: とりあえずuserid = 0
 		const result = await Entries.insertEntry(0, title, content, post);
-		if (!result) throw ErrorHandler.errorContents("FailedToPostEntry");
+		if (!result) throw ErrorService.getError(ErrorCode.FailedToPostEntry);
 
 		await EntryCategory.insertEntry(result.entryId, categoryId);
 		return result;
 	}
 }
 
-export default new EntryService();
+export default EntryService;
