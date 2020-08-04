@@ -5,6 +5,11 @@ import Entries from "../database/Entries";
 import EntryData from "../class/model/EntryData";
 import Category from "../database/Category";
 import { IGetEntries, IGetEntry, IGetEntriesByCategoryName, IGetLatestEntries } from "../definitions/service/entry";
+import { IUpdateEntryRequest } from "../definitions/routers/system/blog";
+import { IEntries } from "../definitions/database/Entries";
+import EntryCategory from "../database/EntryCategory";
+import ErrorHandler from "../handler/ErrorHandler";
+import Utility from "../modules/Utility";
 
 // 一覧の記事数
 const MAX_ENTRIES = 10;
@@ -74,6 +79,22 @@ class EntryService {
 		return {
 			entryList: entryDataList,
 		};
+	}
+
+	public async insertEntry(req: IUpdateEntryRequest): Promise<IEntries> {
+		// TODO: デフォルトカテゴリー
+		const categoryId = req.categoryId ? req.categoryId : 1;
+		const title = req.title;
+		const content = req.content;
+		// MEMO: 文字列で来るのでここで変換
+		const post = Utility.toBoolean(req.post);
+
+		// TODO: とりあえずuserid = 0
+		const result = await Entries.insertEntry(0, title, content, post);
+		if (!result) throw ErrorHandler.errorContents("FailedToPostEntry");
+
+		await EntryCategory.insertEntry(result.entryId, categoryId);
+		return result;
 	}
 }
 

@@ -16,8 +16,9 @@ class ErrorHandler {
 		};
 	}
 
-	private static errorContents(data: string): HttpException {
+	public static errorContents(data: string): HttpException {
 		const error = new HttpException(data);
+		// TODO: enum型に設定する
 		switch (data) {
 			// 400番台
 			case "Bad Request":
@@ -47,6 +48,14 @@ class ErrorHandler {
 				error.title = "未実装です。";
 				error.message = "実装まで今しばらくお待ちください。";
 				return error;
+
+
+			// 独自エラー
+			case "FailedToPostEntry":
+				error.status = 500;
+				error.title = "記事の投稿に失敗しました。"
+				return error;
+
 			default:
 				return error;
 		}

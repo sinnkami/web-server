@@ -13,7 +13,7 @@ class Entries extends SQL {
 		this.tableName = TABLE_NAME;
 	}
 
-	async get(): Promise<IEntries[]> {
+	public async get(): Promise<IEntries[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -22,7 +22,7 @@ class Entries extends SQL {
 		return results;
 	}
 
-	async getById(id: number): Promise<IEntries> {
+	public async getById(id: number): Promise<IEntries> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -32,7 +32,7 @@ class Entries extends SQL {
 		return results[0];
 	}
 
-	async getByIds(ids: number[]): Promise<IEntries[]> {
+	public async getByIds(ids: number[]): Promise<IEntries[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -42,7 +42,7 @@ class Entries extends SQL {
 		return results;
 	}
 
-	async getBackEntry(id: number): Promise<IEntries> {
+	public async getBackEntry(id: number): Promise<IEntries> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -54,7 +54,7 @@ class Entries extends SQL {
 		return results[0];
 	}
 
-	async getNextEntry(id: number): Promise<IEntries> {
+	public async getNextEntry(id: number): Promise<IEntries> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -66,7 +66,7 @@ class Entries extends SQL {
 		return results[0];
 	}
 
-	async getEntryListByLimitCount(offset: number, limit = 10): Promise<IEntries[]> {
+	public async getEntryListByLimitCount(offset: number, limit = 10): Promise<IEntries[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -78,7 +78,7 @@ class Entries extends SQL {
 		return results;
 	}
 
-	async getEntryListByIdsAndLimitCount(ids: number[], offset: number, limit = 10): Promise<IEntries[]> {
+	public async getEntryListByIdsAndLimitCount(ids: number[], offset: number, limit = 10): Promise<IEntries[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -91,7 +91,7 @@ class Entries extends SQL {
 		return results;
 	}
 
-	async getEntriyCount(): Promise<number> {
+	public async getEntriyCount(): Promise<number> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -101,7 +101,7 @@ class Entries extends SQL {
 		return results[0].count;
 	}
 
-	async getEntriyCountByIds(ids: number[]): Promise<number> {
+	public async getEntriyCountByIds(ids: number[]): Promise<number> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -110,6 +110,20 @@ class Entries extends SQL {
 			.toString();
 		const results = await this.select(sql);
 		return results[0].count;
+	}
+
+	public async insertEntry(userId: number, title: string, content: string, post: boolean): Promise<IEntries> {
+		const sql = squelMysql
+			.insert()
+			.into(this.tableName)
+			.set("userId", userId)
+			.set("title", title)
+			.set("content", content)
+			.set("post", post)
+			.toString()
+		const result = await this.insert(sql);
+		return this.getById(result.insertId);
+
 	}
 }
 
