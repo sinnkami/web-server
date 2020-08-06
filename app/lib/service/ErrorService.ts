@@ -44,10 +44,12 @@ class ErrorService {
 		switch (code) {
 			case ErrorCode.FailedToPostEntry:
 				error.name = "記事の投稿に失敗しました。";
-				return error;
-			default:
-				return error;
+			case ErrorCode.FailedToUpdateEntry:
+				error.name = "記事の更新に失敗しました。";
+			case ErrorCode.NotSelectedEntryId:
+				error.name = "記事IDが指定されていない為、処理できませんでした。";
 		}
+		return error;
 	}
 }
 
@@ -62,6 +64,8 @@ export enum HttpStatus {
 
 export enum ErrorCode {
 	FailedToPostEntry = 601,
+	FailedToUpdateEntry = 602,
+	NotSelectedEntryId = 610,
 }
 
 export default ErrorService;

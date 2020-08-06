@@ -1,4 +1,6 @@
 import config from "config";
+import log4js from "../../lib/modules/log4js";
+const logger = log4js.getLogger();
 
 import Entries from "../database/Entries";
 
@@ -94,6 +96,23 @@ class EntryService {
 		if (!result) throw ErrorService.getError(ErrorCode.FailedToPostEntry);
 
 		await EntryCategory.insertEntry(result.entryId, categoryId);
+		return result;
+	}
+
+	public static async updateEntry(req: IUpdateEntryRequest): Promise<IEntries> {
+		const entryId = req.entryId;
+		if (!entryId) throw ErrorService.getError(ErrorCode.NotSelectedEntryId);
+		const categoryId = req.categoryId ? req.categoryId : 1;
+		const title = req.title;
+		const content = req.content;
+		// MEMO: 文字列で来るのでここで変換
+		const post = Utility.toBoolean(req.post);
+
+		// TODO: とりあえずuserid = 0
+		const result = await Entries.updateEntry(0, entryId, title, content, post);
+		if (!result) throw ErrorService.getError(ErrorCode.FailedToUpdateEntry);
+
+		await EntryCategory.updateEntry(entryId, categoryId);
 		return result;
 	}
 }

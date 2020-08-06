@@ -42,6 +42,17 @@ class EntryCategory extends SQL {
 		const result = await this.insert(sql);
 		return this.getById(result.insertId);
 	}
+
+	public async updateEntry(entryId: number, categoryId: number): Promise<IEntryCategory> {
+		const sql = squelMysql
+			.update()
+			.table(this.tableName)
+			.set("entryId", entryId)
+			.set("categoryId", categoryId)
+			.toString()
+		const result = await this.update(sql);
+		return this.getById(entryId);
+	}
 }
 
 export default new EntryCategory();

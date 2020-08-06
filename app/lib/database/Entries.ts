@@ -3,6 +3,8 @@ import SQL from "./SQL";
 import squel from "squel";
 const squelMysql = squel.useFlavour("mysql");
 
+import moment from "moment";
+
 import { IEntries } from "../definitions/database/Entries";
 
 const TABLE_NAME = "Entries";
@@ -120,9 +122,25 @@ class Entries extends SQL {
 			.set("title", title)
 			.set("content", content)
 			.set("post", post)
-			.toString()
+			.toString();
 		const result = await this.insert(sql);
 		return this.getById(result.insertId);
+
+	}
+
+	public async updateEntry(userId: number, entryId: number, title: string, content: string, post: boolean): Promise<IEntries> {
+		const sql = squelMysql
+			.update()
+			.table(this.tableName)
+			.set("userId", userId)
+			.set("title", title)
+			.set("content", content)
+			.set("post", post)
+			.set("updateAt", squel.rstr("now()"))
+			.where("entryId = ?", entryId)
+			.toString();
+		const result = await this.update(sql);
+		return this.getById(entryId);
 
 	}
 }

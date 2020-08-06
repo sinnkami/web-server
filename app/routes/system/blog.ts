@@ -36,14 +36,36 @@ router.get("/create", function (req, res, next) {
 	})
 });
 
-router.get("/edit", function (req, res) {
-	res.render("pages/system/update");
+router.get("/update", function (req, res, next) {
+	const entryId = Number(req.query.entryId);
+	Promise.all([
+		EntryService.getEntry(entryId),
+		CategoryService.getCategories(),
+	]).then(function ([entry, categoryList]) {
+		console.log(entry, categoryList);
+		res.render("pages/system/update", {
+			...entry,
+			categoryList,
+		});
+	}).catch(function (err) {
+		logger.error(err);
+		next(404);
+	})
+
 });
 
 router.post("/update", function (req, res, next) {
 	const request: IUpdateEntryRequest = req.body;
 	if (request.entryId && EntryService.getEntry(request.entryId)) {
-		// EntryService.updateEntry();
+		EntryService.updateEntry(request)
+			.then(function (value) {
+				logger.info(`記事「${value.title}」が更新されました。\n ${Utility.getDomain(req)}/blog/entry/${value.entryId}`);
+				res.status(200).send(value);
+			})
+			.catch(function (err) {
+				logger.error(err);
+				next(500);
+			});
 	} else {
 		EntryService.insertEntry(request)
 			.then(function (value) {

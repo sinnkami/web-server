@@ -9,16 +9,15 @@ block main
 	div.row
 		div.form-group
 			label 記事ID
-			input.form-control(name="id" type="text" readonly)
+			input.form-control(name="id" type="number" value=`${entry.entryId}` readonly)
 		div.form-group
 			label タイトル
-			input.form-control(name="title" type="text" maxlength="30" placeholder="30文字以内")
+			input.form-control(name="title" type="text" value=`${entry.title}` maxlength="30" placeholder="30文字以内")
 		div.form-group
 			label カテゴリー
-			input.form-control(name="category" type="text" maxlength="20" placeholder="20文字以内" autocomplete="on" list="category-data")
-			datalist#category-data
-				option(value="test")
-				option(value="hoge")
+			select.form-control(name="category")
+				- for (const category of categoryList)
+					option(value=`${category.categoryId}` selected=`${category.categoryId === entry.categoryId}`) #{category.name}
 		div.col-lg-12
 			div.form-group
 				label 記事
