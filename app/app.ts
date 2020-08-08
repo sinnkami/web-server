@@ -1,4 +1,4 @@
-import express, { Request, Response, CookieOptions } from "express";
+import express, { Request, Response, CookieOptions, Router } from "express";
 import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
@@ -28,6 +28,7 @@ import HttpException from "./lib/class/Exception/HttpException";
 process.on("unhandledRejection", logger.trace);
 
 import Tasks from "./lib/modules/tasks";
+import { IConnectLoggerOption } from "./lib/definitions/module/log4js";
 const taskMessages: string[] = ["自動実行タスク一覧"];
 for (const taskName of Object.keys(Tasks.jobList)) {
 	taskMessages.push("・" + taskName);
@@ -51,7 +52,7 @@ if (config.has("favicon.use") && config.get("favicon.use")) {
 }
 
 if (config.has("modules.log4js") && config.get("modules.log4js")) {
-	const options: object = config.get("modules.log4js.connectLoggerOptions");
+	const options: IConnectLoggerOption = config.get("modules.log4js.connectLoggerOptions");
 	app.use(log4js.connectLogger(logger, options));
 }
 
@@ -88,7 +89,7 @@ passport.use(
 			passwordField: "password",
 			passReqToCallback: true,
 		},
-		function (req, username, password, done) {
+		function(req, username, password, done) {
 			// TODO: テスト用
 			if (username === "test") {
 				return done(null, username);
@@ -115,7 +116,7 @@ if (config.has("public.useNodeModules")) {
 }
 
 // 全ページ共通処理
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
 	Object.assign(res.locals, config.get("locals"));
 
 	const descriptions = res.locals.descriptions;
@@ -133,15 +134,19 @@ for (const handler of Object.values(handlerList)) {
 }
 
 app.all("/system*", (req, res, next) => {
-	if (req.isAuthenticated()) {
-		return next();
-	} else {
-		return next(404);
-	}
+	// TODO: 利便性のため実装中はコメントアウト
+	// if (req.isAuthenticated()) {
+	return next();
+	// } else {
+	// 	return next(404);
+	// }
 });
 
 // 再帰的にrouterを読み込む
-function routerUse(url: string, routers: object): string | void {
+interface IRecursiveRouter {
+	[path: string]: Router | IRecursiveRouter;
+}
+function routerUse(url: string, routers: IRecursiveRouter): string | void {
 	for (const [name, router] of Object.entries(routers)) {
 		if (typeof router === "object") {
 			return routerUse(url + name + "/", router);
@@ -158,7 +163,7 @@ app.use((req, res, next) => next(404));
 
 // error handler
 app.use(
-	ErrorHandler.process(function (error: HttpException, req: Request, res: Response) {
+	ErrorHandler.process(function(error: HttpException, req: Request, res: Response) {
 		res.status(error.status || 500);
 		res.render("pages/error", {
 			errorTitle: error.title,

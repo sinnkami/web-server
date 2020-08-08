@@ -65,7 +65,7 @@ class EntryCategory extends SQL {
 			.set("entryId", entryId)
 			.set("categoryId", categoryId)
 			.toString();
-		const result = await this.update(sql);
+		await this.update(sql);
 		return this.getById(entryId);
 	}
 }

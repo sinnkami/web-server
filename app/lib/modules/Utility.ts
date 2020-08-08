@@ -7,7 +7,7 @@ class Utility {
 	}
 
 	// ドメインを取得する
-	public static getDomain(req: Request) {
+	public static getDomain(req: Request): string {
 		return req.protocol + '://' + req.get('Host');
 	}
 }

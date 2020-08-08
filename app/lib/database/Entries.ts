@@ -3,8 +3,6 @@ import SQL from "./SQL";
 import squel from "squel";
 const squelMysql = squel.useFlavour("mysql");
 
-import moment from "moment";
-
 import { IEntries } from "../definitions/database/Entries";
 
 const TABLE_NAME = "Entries";
@@ -139,7 +137,7 @@ class Entries extends SQL {
 			.set("updateAt", squel.rstr("now()"))
 			.where("entryId = ?", entryId)
 			.toString();
-		const result = await this.update(sql);
+		await this.update(sql);
 		return this.getById(entryId);
 
 	}

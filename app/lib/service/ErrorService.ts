@@ -44,10 +44,13 @@ class ErrorService {
 		switch (code) {
 			case ErrorCode.FailedToPostEntry:
 				error.name = "記事の投稿に失敗しました。";
+				break;
 			case ErrorCode.FailedToUpdateEntry:
 				error.name = "記事の更新に失敗しました。";
+				break;
 			case ErrorCode.NotSelectedEntryId:
 				error.name = "記事IDが指定されていない為、処理できませんでした。";
+				break;
 		}
 		return error;
 	}
