@@ -5,15 +5,13 @@
 /*============================================================================*/
 
 import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
-import HttpException from "../class/Exception/HttpException";
 import ErrorService from "../service/ErrorService";
 
 class ErrorHandler {
 	public static process(callback: ErrorRequestHandler): ErrorRequestHandler {
 		return (code: number, req: Request, res: Response, next: NextFunction): ErrorRequestHandler => {
-			// set locals, only providing error in development
-			const errorContent = req.app.get("env") === "development" ? ErrorService.getHttpException(code) : {};
-			return callback(errorContent, req, res, next);
+			// TODO: 本番環境になる前にエラーログの出力を止める
+			return callback(ErrorService.getHttpException(code), req, res, next);
 		};
 	}
 
