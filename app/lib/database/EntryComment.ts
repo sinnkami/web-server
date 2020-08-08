@@ -13,9 +13,19 @@ class EntryComment extends SQL {
 		this.tableName = TABLE_NAME;
 	}
 
-	async get(): Promise<IEntryComment[]> {
+	public async get(): Promise<IEntryComment[]> {
 		const sql = squelMysql
 			.select()
+			.from(this.tableName)
+			.toString();
+		const results = await this.select(sql);
+		return results;
+	}
+
+	public async getById(entryId: number): Promise<IEntryComment[]> {
+		const sql = squelMysql
+			.select()
+			.where("entryId = ?", entryId)
 			.from(this.tableName)
 			.toString();
 		const results = await this.select(sql);

@@ -3,7 +3,7 @@ import SQL from "./SQL";
 import squel from "squel";
 const squelMysql = squel.useFlavour("mysql");
 
-import { IEntryCategory } from "../definitions/database/EntryCategory";
+import { IEntryCategory, IFrequentUseCategory } from "../definitions/database/EntryCategory";
 
 const TABLE_NAME = "EntryCategory";
 
@@ -32,6 +32,21 @@ class EntryCategory extends SQL {
 		return results[0];
 	}
 
+	public async getFrequentUseCategory(limit: number): Promise<IFrequentUseCategory[]>{
+		const sql = squelMysql
+			.select()
+			.field("categoryId")
+			.field("count(*)", "count")
+			.from(this.tableName)
+			.group("categoryId")
+			.order("count", false)
+			.limit(limit)
+			.toString();
+		const results = this.select(sql);
+		return results;
+
+	}
+
 	public async insertEntry(entryId: number, categoryId: number): Promise<IEntryCategory> {
 		const sql = squelMysql
 			.insert()
@@ -49,7 +64,7 @@ class EntryCategory extends SQL {
 			.table(this.tableName)
 			.set("entryId", entryId)
 			.set("categoryId", categoryId)
-			.toString()
+			.toString();
 		const result = await this.update(sql);
 		return this.getById(entryId);
 	}

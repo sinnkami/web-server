@@ -6,7 +6,7 @@ import Entries from "../database/Entries";
 
 import EntryData from "../class/model/EntryData";
 import Category from "../database/Category";
-import { IGetEntries, IGetEntry, IGetEntriesByCategoryName, IGetLatestEntries } from "../definitions/service/entry";
+import { IGetEntries, IGetEntry, IGetEntriesByCategoryName } from "../definitions/service/entry";
 import { IUpdateEntryRequest } from "../definitions/routers/system/blog";
 import { IEntries } from "../definitions/database/Entries";
 import EntryCategory from "../database/EntryCategory";
@@ -74,13 +74,11 @@ class EntryService {
 	// 	};
 	// }
 
-	public static async getLatestEntries(limit: number): Promise<IGetLatestEntries> {
+	public static async getLatestEntries(limit: number): Promise<EntryData[]> {
 		const entryList = await Entries.getEntryListByLimitCount(1, limit);
 		const entryDataList = await Promise.all(entryList.map((entry) => new EntryData(entry).createEntry()));
 
-		return {
-			entryList: entryDataList,
-		};
+		return entryDataList;
 	}
 
 	public static async insertEntry(req: IUpdateEntryRequest): Promise<IEntries> {

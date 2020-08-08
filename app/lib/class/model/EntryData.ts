@@ -8,6 +8,8 @@ import Comment from "../../database/Comment";
 import { ICategory } from "../../definitions/database/Category";
 import { IEntries } from "../../definitions/database/Entries";
 import { IComment } from "../../definitions/database/Comment";
+import EntryCategory from "../../database/EntryCategory";
+import EntryComment from "../../database/EntryComment";
 
 export interface IEntryOptions {
 	addMoreTag?: boolean;
@@ -35,12 +37,16 @@ class EntryData {
 
 	public async createEntry(options: IEntryOptions = {}): Promise<this> {
 		// カテゴリーを設定する
-		// const category = await Category.getById(this.entryId);
-		// this.category = category;
+		const categoryId = (await EntryCategory.getById(this.entryId)).categoryId;
+		const category = await Category.getById(categoryId);
+		this.category = category;
 
 		// コメントを設定する
-		// const comments = await Comment.getCommentListByEntryId(this.entryId);
-		// this.comments = comments;
+		const commentIdList = (await EntryComment.getById(this.entryId)).map(value => value.commentId);
+		if (commentIdList.length) {
+			const comments = await Comment.getbyIdList(commentIdList);
+			this.comments = comments;
+		}
 
 		// 時間を変換する
 		const dateFormat = options.dateFormat || config.get("dateFormat");

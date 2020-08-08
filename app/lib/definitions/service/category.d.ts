@@ -1,13 +1,5 @@
-import CategoryData from "../../class/model/CategoryData";
+import { ICategory } from "../database/Category";
 
-export interface ICategryDict {
-	[name: string]: CategoryData;
-}
-
-export interface IGetCategories {
-	categoryList: CategoryData[];
-}
-
-export interface IGetCategoriesByLimit {
-	categoryList: CategoryData[];
+export interface IGetFrequentUseCategory extends ICategory {
+	count: number;
 }

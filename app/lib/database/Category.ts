@@ -13,7 +13,7 @@ class Category extends SQL {
 		this.tableName = TABLE_NAME;
 	}
 
-	async get(): Promise<ICategory[]> {
+	public async get(): Promise<ICategory[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -22,7 +22,7 @@ class Category extends SQL {
 		return results;
 	}
 
-	async getById(id: number): Promise<ICategory> {
+	public async getById(id: number): Promise<ICategory> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -32,7 +32,17 @@ class Category extends SQL {
 		return results[0];
 	}
 
-	async getByName(name: string): Promise<ICategory[]> {
+	public async getByIds(ids: number[]): Promise<ICategory[]> {
+		const sql = squelMysql
+			.select()
+			.from(this.tableName)
+			.where("categoryId IN ?", ids)
+			.toString();
+		const results = await this.select(sql);
+		return results;
+	}
+
+	public async getByName(name: string): Promise<ICategory[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)

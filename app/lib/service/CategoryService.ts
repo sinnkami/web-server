@@ -1,33 +1,31 @@
 import Category from "../database/Category";
 import CategoryData from "../class/model/CategoryData";
-import { IGetCategories, IGetCategoriesByLimit, ICategryDict } from "../definitions/service/category";
+import { IGetFrequentUseCategory } from "../definitions/service/category";
+import { ICategory } from "../definitions/database/Category";
+import EntryCategory from "../database/EntryCategory";
 
 class CategoryService {
-	public async getCategories(): Promise<IGetCategories> {
-		const categoryDict = await this.getCategoryDict();
-		return { categoryList: Object.values(categoryDict) };
-	}
-
-	public async getCategoriesByLimit(limit: number): Promise<IGetCategoriesByLimit> {
-		const categoryList = await Category.getCategoryListByLimit(limit);
-		return {
-			categoryList: categoryList.map((category) => new CategoryData(category)),
-		};
-	}
-
-	private async getCategoryDict(): Promise<ICategryDict> {
+	public async getCategories(): Promise<ICategory[]> {
 		const categoryList = await Category.get();
-		const categoryDict: ICategryDict = {};
-		for (const category of categoryList) {
-			const key = category.name;
-			if (categoryDict[`${key}`]) {
-				categoryDict[`${key}`].addEntryId(category.entryID);
-			} else {
-				categoryDict[`${key}`] = new CategoryData(category);
-			}
-		}
+		return categoryList;
+	}
 
-		return categoryDict;
+	public async getCategoriesByLimit(limit: number): Promise<IGetFrequentUseCategory[]> {
+		const frequentUseCategoryList = await EntryCategory.getFrequentUseCategory(limit);
+		const categoryList = await Category.getByIds(frequentUseCategoryList.map(value => value.categoryId));
+
+		const results: IGetFrequentUseCategory[] = [];
+		for (const category of categoryList) {
+			const frequentUseCategory = frequentUseCategoryList.find(value => value.categoryId === category.categoryId);
+			if (frequentUseCategory) {
+				results.push({
+					...category,
+					count: frequentUseCategory.count,
+				});
+			}
+
+		}
+		return results;
 	}
 }
 

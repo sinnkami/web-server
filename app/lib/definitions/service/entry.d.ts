@@ -13,7 +13,3 @@ export interface IGetEntry {
 }
 
 export type IGetEntriesByCategoryName = IGetEntries;
-
-export interface IGetLatestEntries {
-	entryList: EntryData[];
-}

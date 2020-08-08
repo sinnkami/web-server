@@ -3,6 +3,6 @@ div.category-list.box
 	ul.items
 		- for (let category of categoryList)
 			li.item-list
-				a.item-link(href=`/blog/category/${category.name}`) #{category.name}
+				a.item-link(href=`/blog/category/${category.name}`) #{category.name} (#{category.count})
 		li.item-list
 			a.item-link(href="/blog/category") カテゴリ一覧

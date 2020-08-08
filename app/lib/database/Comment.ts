@@ -13,7 +13,7 @@ class Comment extends SQL {
 		this.tableName = TABLE_NAME;
 	}
 
-	async get(): Promise<IComment[]> {
+	public async get(): Promise<IComment[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
@@ -22,11 +22,11 @@ class Comment extends SQL {
 		return results;
 	}
 
-	async getCommentListByEntryId(entryId: number): Promise<IComment[]> {
+	public async getbyIdList(commentIdList: number[]): Promise<IComment[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryId = ?", entryId)
+			.where("commentId IN ?", commentIdList)
 			.toString();
 		const results = await this.select(sql);
 		return results;

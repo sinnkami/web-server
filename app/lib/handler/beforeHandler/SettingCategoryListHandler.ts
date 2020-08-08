@@ -9,8 +9,8 @@ class SettingCategoryListHandler {
 		return (req, res, next): void => {
 			// カテゴリー一覧を設定する
 			const limit: number = config.get("limit.category") || 5;
-			CategoryService.getCategoriesByLimit(limit).then(function(value) {
-				res.locals.categoryList = value.categoryList;
+			CategoryService.getCategoriesByLimit(limit).then(function(values) {
+				res.locals.categoryList = values;
 				next();
 			});
 		};
