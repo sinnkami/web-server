@@ -1,5 +1,4 @@
 import Category from "../database/Category";
-import CategoryData from "../class/model/CategoryData";
 import { IGetFrequentUseCategory } from "../definitions/service/category";
 import { ICategory } from "../definitions/database/Category";
 import EntryCategory from "../database/EntryCategory";
