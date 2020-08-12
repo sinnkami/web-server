@@ -5,16 +5,13 @@
 		"allowJs": false,
 		"declaration": false,
 		"declarationMap": false,
-		"sourceMap": false,
+		"sourceMap": true,
 		"rootDir": "./app",
 		"removeComments": true,
 		"noEmit": false,
 		"isolatedModules": false,
-
 		"esModuleInterop": true,
-
 		"strict": true,
-
 		"forceConsistentCasingInFileNames": true
 	}
 }
