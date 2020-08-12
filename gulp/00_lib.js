@@ -8,4 +8,4 @@ gulp.task("lib:min", function () {
 	return gulp.src([`!${args.src}/lib/**/*.ts`, `${args.src}/lib/**/*.min.*`]).pipe(gulp.dest(`${args.dest}/lib/`));
 });
 
-gulp.task("lib", gulp.parallel("app:normal", "lib:min"));
+gulp.task("lib", gulp.parallel("lib:normal", "lib:min"));
