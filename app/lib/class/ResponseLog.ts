@@ -37,6 +37,7 @@ class ResponseLog {
 
 		if (!logEvent.context.res) {
 			const logEventMessageList = logEvent.data.map((value: any) => {
+				if (value instanceof Error) return value.stack || value.toString();
 				if (typeof value === "object") return JSON.stringify(value);
 				return value;
 			});

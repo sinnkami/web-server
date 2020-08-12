@@ -1,5 +1,8 @@
 import config from "config";
 
+import log4js from "../../modules/log4js";
+const logger = log4js.getLogger();
+
 import { RequestHandler } from "express";
 import EntryService from "../../service/EntryService";
 
@@ -15,6 +18,9 @@ class SettingLatestEntriesHandler {
 			EntryService.getLatestEntries(this.LIMIT_ENTRIES).then(function(values) {
 				res.locals.latestContents = values;
 				next();
+			}).catch(function(err) {
+				logger.error(err);
+				next(500);
 			});
 		};
 	}
