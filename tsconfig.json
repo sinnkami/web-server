@@ -1,17 +1,37 @@
 {
+	"include": [
+		"app/**/*"
+	],
+	"exclude": [
+		"node_module/**/*",
+		"dist/**/*",
+		"logs/**/*",
+		"gulp/**/*",
+		".vscode/**/*"
+	],
 	"compilerOptions": {
 		"target": "ES6",
 		"module": "commonjs",
+		
 		"allowJs": false,
 		"declaration": false,
 		"declarationMap": false,
 		"sourceMap": true,
 		"rootDir": "./app",
+		"outDir": "./dist",
+		"baseUrl": "./",
+		"incremental": true,
 		"removeComments": true,
 		"noEmit": false,
 		"isolatedModules": false,
 		"esModuleInterop": true,
 		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"moduleResolution": "node",
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true
 	}
 }
