@@ -4,12 +4,12 @@ import { ICategory } from "../definitions/database/Category";
 import EntryCategory from "../database/EntryCategory";
 
 class CategoryService {
-	public async getCategories(): Promise<ICategory[]> {
+	public static async getCategories(): Promise<ICategory[]> {
 		const categoryList = await Category.get();
 		return categoryList;
 	}
 
-	public async getCategoriesByLimit(limit: number): Promise<IGetFrequentUseCategory[]> {
+	public static async getCategoriesByLimit(limit: number): Promise<IGetFrequentUseCategory[]> {
 		const frequentUseCategoryList = await EntryCategory.getFrequentUseCategory(limit);
 		const categoryList = await Category.getByIds(frequentUseCategoryList.map(value => value.categoryId));
 
@@ -28,4 +28,4 @@ class CategoryService {
 	}
 }
 
-export default new CategoryService();
+export default CategoryService;
