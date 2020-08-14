@@ -42,14 +42,14 @@ class Category extends SQL {
 		return results;
 	}
 
-	public async getByName(name: string): Promise<ICategory[]> {
+	public async getByName(name: string): Promise<ICategory> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
 			.where("name = ?", name)
 			.toString();
 		const results = await this.select(sql);
-		return results;
+		return results[0];
 	}
 }
 

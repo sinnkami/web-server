@@ -1,6 +1,4 @@
 import config from "config";
-import log4js from "../../lib/modules/log4js";
-const logger = log4js.getLogger();
 
 import Entries from "../database/Entries";
 
@@ -21,7 +19,7 @@ class EntryService {
 
 	public static async getEntries(page: number): Promise<IGetEntries> {
 		const entryList = await Entries.getEntryListByLimitCount((page - 1) * this.MAX_ENTRIES, this.MAX_ENTRIES);
-		if (!entryList.length) throw new Error("記事が取得できませんでした");
+		if (!entryList.length) throw ErrorService.getError(ErrorCode.FailedToGetEntry);
 
 		const entryCount = await Entries.getEntriyCount();
 
@@ -37,7 +35,7 @@ class EntryService {
 
 	public static async getEntry(entryId: number): Promise<IGetEntry> {
 		const entry = await Entries.getById(entryId);
-		if (!entry) throw new Error("記事が取得できませんでした");
+		if (!entry) throw ErrorService.getError(ErrorCode.FailedToGetEntry);
 
 		const nextEntry = await Entries.getNextEntry(entryId);
 		const backEntry = await Entries.getBackEntry(entryId);
@@ -50,32 +48,37 @@ class EntryService {
 		};
 	}
 
-	// public async getEntriesByCategoryName(name: string, page: number): Promise<IGetEntriesByCategoryName> {
-	// 	const categoryList = await Category.getByName(name);
-	// 	if (!categoryList.length) throw new Error("カテゴリが取得できませんでした");
+	public static async getEntriesByCategoryName(name: string, page: number): Promise<IGetEntriesByCategoryName> {
+		const category = await Category.getByName(name);
+		if (!category) throw new Error("カテゴリが取得できませんでした");
 
-	// 	const entriIdList = categoryList.map((v) => v.entryId);
-	// 	const entryList = await Entries.getEntryListByIdsAndLimitCount(
-	// 		entriIdList,
-	// 		(page - 1) * this.MAX_ENTRIES,
-	// 		this.MAX_ENTRIES
-	// 	);
-	// 	if (!entryList.length) throw new Error("記事が取得できませんでした");
 
-	// 	const entryCount = await Entries.getEntriyCountByIds(entriIdList);
+		const entryCategoryList = await EntryCategory.getByCategoryId(category.categoryId);
+		const entryIdList = entryCategoryList.map((value) => value.entryId);
 
-	// 	const entryDataList = await Promise.all(
-	// 		entryList.map((entry) => new EntryData(entry).createEntry({ addMoreTag: true }))
-	// 	);
+		const entryList = await Entries.getEntryListByIdsAndLimitCount(
+			entryIdList,
+			(page - 1) * this.MAX_ENTRIES,
+			this.MAX_ENTRIES
+		);
+		if (!entryList.length) throw ErrorService.getError(ErrorCode.FailedToGetEntry);
 
-	// 	return {
-	// 		entryList: entryDataList,
-	// 		entryCount,
-	// 	};
-	// }
+		const entryCount = await Entries.getEntriyCountByIds(entryIdList);
+
+		const entryDataList = await Promise.all(
+			entryList.map((entry) => new EntryData(entry).createEntry({ addMoreTag: true }))
+		);
+
+		return {
+			entryList: entryDataList,
+			entryCount,
+		};
+	}
 
 	public static async getLatestEntries(limit: number): Promise<EntryData[]> {
 		const entryList = await Entries.getEntryListByLimitCount(1, limit);
+		if (!entryList.length) throw ErrorService.getError(ErrorCode.FailedToGetEntry);
+
 		const entryDataList = await Promise.all(entryList.map((entry) => new EntryData(entry).createEntry()));
 
 		return entryDataList;

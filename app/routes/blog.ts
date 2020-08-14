@@ -69,21 +69,21 @@ router.get("/category", function(req, res, next) {
 });
 
 // カテゴリーで記事を絞る
-// router.get(`/category/:name`, function(req, res, next) {
-// 	const name = req.params.name;
-// 	const page = Number(req.query.page) || 1;
-// 	EntryService.getEntriesByCategoryName(name, page)
-// 		.then(function(value) {
-// 			res.render("pages/blog", {
-// 				contents: value.entryList,
-// 				currentPage: page,
-// 				maxPage: Math.ceil(value.entryCount / 10),
-// 			});
-// 		})
-// 		.catch(function(err) {
-// 			logger.error(err);
-// 			next(404);
-// 		});
-// });
+router.get(`/category/:name`, function(req, res, next) {
+	const name = req.params.name;
+	const page = Number(req.query.page) || 1;
+	EntryService.getEntriesByCategoryName(name, page)
+		.then(function(value) {
+			res.render("pages/blog", {
+				contents: value.entryList,
+				currentPage: page,
+				maxPage: Math.ceil(value.entryCount / 10),
+			});
+		})
+		.catch(function(err) {
+			logger.error(err);
+			next(404);
+		});
+});
 
 export = router;

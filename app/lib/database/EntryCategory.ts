@@ -32,6 +32,16 @@ class EntryCategory extends SQL {
 		return results[0];
 	}
 
+	public async getByCategoryId(id: number): Promise<IEntryCategory[]> {
+		const sql = squelMysql
+			.select()
+			.from(this.tableName)
+			.where("categoryId = ?", id)
+			.toString();
+		const results = await this.select(sql);
+		return results;
+	}
+
 	public async getFrequentUseCategory(limit: number): Promise<IFrequentUseCategory[]>{
 		const sql = squelMysql
 			.select()

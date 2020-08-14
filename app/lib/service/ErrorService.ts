@@ -51,6 +51,12 @@ class ErrorService {
 			case ErrorCode.NotSelectedEntryId:
 				error.name = "記事IDが指定されていない為、処理できませんでした。";
 				break;
+			case ErrorCode.FailedToGetEntry:
+				error.name = "記事が取得できませんでした。";
+				break;
+			case ErrorCode.FailedToGetCategory:
+				error.name = "カテゴリが取得できませんでした。";
+				break;
 		}
 		return error;
 	}
@@ -69,6 +75,8 @@ export enum ErrorCode {
 	FailedToPostEntry = 601,
 	FailedToUpdateEntry = 602,
 	NotSelectedEntryId = 610,
+	FailedToGetEntry = 650,
+	FailedToGetCategory = 651,
 }
 
 export default ErrorService;
