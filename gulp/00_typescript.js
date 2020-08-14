@@ -18,7 +18,9 @@ gulp.task("typescript:normal", function() {
 		.pipe(babel())
 		.pipe(sourcemaps.write("maps", {
 			includeContent: false,
-			sourceRoot: "./app",
+			sourceRoot: function (file) { 
+				return "./app";
+			},
 		}))
 		.pipe(gulp.dest(`${args.dest}/`));
 });
