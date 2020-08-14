@@ -43,7 +43,7 @@ CREATE TABLE `Comment` (
 	`content` text CHARACTER SET utf8mb4,
 	`createAt` datetime,
 	`ip` varchar(15) not null,
-	`device` varchar(255) CHARACTER SET utf8mb4,
+	`userAgent` varchar(255) CHARACTER SET utf8mb4,
 	PRIMARY KEY(`commentId`)
 );
 

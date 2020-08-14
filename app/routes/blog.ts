@@ -10,6 +10,8 @@ import TwitterCard from "../lib/class/model/TwitterCard";
 
 import EntryService from "../lib/service/EntryService";
 import CategoryService from "../lib/service/CategoryService";
+import CommentService from "../lib/service/CommentService";
+import Utility from "../lib/modules/Utility";
 
 // 記事一覧を表示する
 router.get("/", function(req, res, next) {
@@ -39,13 +41,18 @@ router.get("/entry/:id(\\d+)", function(req, res, next) {
 				title: value.entry.title,
 				url: `https://${req.get("host")}/blog/entry/${value.entry.entryId}`,
 			});
+
+			if (req.session) {
+				req.session.entryId = entryId;
+			}
+
 			res.render("pages/blog", {
 				contents: [value.entry],
 				next: value.nextEntry ? value.nextEntry.entryId : "",
 				back: value.backEntry ? value.backEntry.entryId : "",
 				comments: value.entry.comments.length
 					? value.entry.comments
-					: [{ body: "<p>コメントがありません</p>" }],
+					: [{ content: "<p>コメントがありません</p>" }],
 				twitterCard: await twitterCard.createTwitterCard(value.entry),
 			});
 		})
@@ -84,6 +91,26 @@ router.get(`/category/:name`, function(req, res, next) {
 			logger.error(err);
 			next(404);
 		});
+});
+
+// コメントを投稿する
+router.post("/comment", function(req, res, next) {
+	const content = req.body.content;
+	const author = req.body.author;
+	const entryId = req.session ? req.session.entryId : 0;
+
+	CommentService.insertComment({
+		entryId,
+		content,
+		author,
+		userAgent: Utility.getUserAgent(req),
+		ip: Utility.getIp(req),
+	}).then(function(value) {
+		res.status(200).send(value);
+	}).catch(function(err) {
+		logger.error(err);
+		next(500);
+	});
 });
 
 export = router;

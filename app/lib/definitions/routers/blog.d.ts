@@ -1,8 +1,7 @@
-export interface IComment {
-	commentId: number;
+export interface IInsertCommentReuest {
+	entryId: number;
 	author: string;
 	content: string;
-	createAt: Date;
 	ip: string;
 	userAgent: string;
 }

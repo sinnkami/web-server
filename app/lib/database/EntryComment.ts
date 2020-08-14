@@ -25,11 +25,32 @@ class EntryComment extends SQL {
 	public async getById(entryId: number): Promise<IEntryComment[]> {
 		const sql = squelMysql
 			.select()
-			.where("entryId = ?", entryId)
 			.from(this.tableName)
+			.where("entryId = ?", entryId)
 			.toString();
 		const results = await this.select(sql);
 		return results;
+	}
+
+	public async getByCommentId(commentId: number): Promise<IEntryComment> {
+		const sql = squelMysql
+			.select()
+			.from(this.tableName)
+			.where("commentId = ?", commentId)
+			.toString();
+		const results = await this.select(sql);
+		return results[0];
+	}
+
+	public async insertComment(entryId: number, commentId: number): Promise<IEntryComment> {
+		const sql = squelMysql
+			.insert()
+			.into(this.tableName)
+			.set("entryId", entryId)
+			.set("commentId", commentId)
+			.toString();
+		const result = await this.insert(sql);
+		return await this.getByCommentId(result.insertId);
 	}
 }
 
