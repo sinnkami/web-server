@@ -12,6 +12,8 @@ class SQL {
 	constructor() {
 		// TODO: キャッシュして高速化を図りたい
 		// TODO: コネクションプールを使用してパフォーマンスを良くしたい
+
+		// MEMO: redis使った場合に複数IDだったらどうするか迷ってたけど、alias用のキーを追加すれば解決な気がした
 		mysql
 			.createConnection({
 				host: config.get("db.host"),
