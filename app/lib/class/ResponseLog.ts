@@ -6,6 +6,7 @@ import path from "path";
 
 import LinuxColor from "./LinuxColor";
 import { Level } from "log4js";
+import Utility from "../modules/Utility";
 
 class ResponseLog {
 	private logEvent!: any;
@@ -92,13 +93,7 @@ class ResponseLog {
 	}
 
 	private getIp(req: any): string {
-		if (req.connection && req.connection.remoteAddress) {
-			return req.connection.remoteAddress;
-		}
-		if (req.socket && req.socket.remoteAddress) {
-			return req.socket.remoteAddress;
-		}
-		return "0.0.0.0";
+		return Utility.getIp(req);
 	}
 
 	private getResponseMsTime(res: any): string {
