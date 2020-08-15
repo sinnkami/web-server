@@ -105,12 +105,14 @@ router.post("/comment", function(req, res, next) {
 		author,
 		userAgent: Utility.getUserAgent(req),
 		ip: Utility.getIp(req),
-	}).then(function(value) {
-		res.status(200).send(value);
-	}).catch(function(err) {
-		logger.error(err);
-		next(500);
-	});
+	})
+		.then(function(value) {
+			res.status(200).send(value);
+		})
+		.catch(function(err) {
+			logger.error(err);
+			next(500);
+		});
 });
 
 export = router;

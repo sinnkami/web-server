@@ -1,17 +1,17 @@
-div.comment-create.box
-	span 名前
-	div.set-author
-		input(name="author" type="text" maxlength="30" placeholder="名前を入力してください")
-	span 本文
-	div.set-body
-		textarea(name="body" rows="4" cols="40")
-	button#comment-submit 投稿
-div.comment.box
-	- for (let data of comments)
-		div.header
-		if data.author
-			p.comment-name 名前 : #{data.author}
-		if data.createAt
-			p.createAt 投稿日 : #{data.createAt}
-		div.content !{data.content}
-		div.footer
+if comments
+	div.comment-create.box
+		span 名前
+		div.set-author
+			input(name="author" type="text" maxlength="30" placeholder="名前を入力してください")
+		span 本文
+		div.set-body
+			textarea(name="body" rows="4" cols="40")
+		button#comment-submit 投稿
+	div.comment.box
+		- for (let data of comments)
+			div.header
+				p.comment-name 名前 : #{data.author}
+				
+			div.content #{data.content}
+			div.footer
+				p.createAt 投稿日 : #{data.createAt}
