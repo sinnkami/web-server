@@ -1,13 +1,24 @@
-extends /layout/system
-block meta
-	link(rel="stylesheet" href="/css/pages/system/login.css")
-
-block main
-	form.form-signin(role='form' action="/login" method="post")
-		h1.h3.mb-3.font-weight-normal Please sign in
-		div.form-group
-			label.sr-only(for="inputEmail") Username
-			input.form-control(type="text" name="username" placeholder="Username" required autofocus)
-			label.sr-only(for="inputPassword") Password
-			input.form-control(type="password" name="password" placeholder="Password" required)
-		button.btn.btn-lg.btn-primary.btn-block(type="submit") Sign in
+doctype html
+html
+	head
+		title #{title}
+		meta(content=`管理ページ | ${title}` name="title")
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+		meta(name="format-detection" content="email=no,telephone=no,address=no")
+		meta(name="viewport" content="width=device-width,initial-scale=1")
+		script(src="/module/jquery.min.js" type="text/javascript" charset="utf-8")
+		link(rel="stylesheet" href="/module/css/bootstrap.min.css" )
+		link(rel="stylesheet" href="/module/navbar-fixed-left.min.css" )
+		script(src="/module/js/bootstrap.min.js" type="text/javascript" charset="utf-8")
+		link(rel="stylesheet" href="/css/pages/system/login.css")
+	body
+		div.container-fluid
+			form.form-signin(role='form' action="/login" method="post")
+				h1.h3.mb-3.font-weight-normal Please sign in
+				div.form-group
+					label.sr-only(for="inputEmail") Username
+					input.form-control(type="text" name="username" placeholder="Username" required autofocus)
+					label.sr-only(for="inputPassword") Password
+					input.form-control(type="password" name="password" placeholder="Password" required)
+				button.btn.btn-lg.btn-primary.btn-block(type="submit") Sign in
