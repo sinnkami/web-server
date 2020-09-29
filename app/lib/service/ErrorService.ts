@@ -57,6 +57,9 @@ class ErrorService {
 			case ErrorCode.FailedToGetCategory:
 				error.name = "カテゴリが取得できませんでした。";
 				break;
+			case ErrorCode.FaildToLogin:
+				error.name = "ログイン処理に失敗しました。";
+				break;
 		}
 		return error;
 	}
@@ -77,6 +80,8 @@ export enum ErrorCode {
 	NotSelectedEntryId = 610,
 	FailedToGetEntry = 650,
 	FailedToGetCategory = 651,
+
+	FaildToLogin = 999,
 }
 
 export default ErrorService;

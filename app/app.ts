@@ -29,6 +29,9 @@ process.on("unhandledRejection", logger.trace);
 
 import Tasks from "./lib/modules/tasks";
 import { IConnectLoggerOption } from "./lib/definitions/module/log4js";
+
+import login from "./lib/modules/login";
+
 const taskMessages: string[] = ["自動実行タスク一覧"];
 for (const taskName of Object.keys(Tasks.jobList)) {
 	taskMessages.push("・" + taskName);
@@ -90,11 +93,13 @@ passport.use(
 			passReqToCallback: true,
 		},
 		function(req, username, password, done) {
-			// TODO: テスト用
-			if (username === "test") {
+			login(username, password).then(function(result) {
+				logger.info("ログインに成功しました");
 				return done(null, username);
-			}
-			return done(null, false, { message: "パスワードが正しくありません。" });
+			}).catch(function(err) {
+				logger.error(err);
+				return done(null, false, { message: "パスワードが正しくありません。" });
+			});
 		}
 	)
 );
@@ -134,12 +139,11 @@ for (const handler of Object.values(handlerList)) {
 }
 
 app.all("/system*", (req, res, next) => {
-	// TODO: 利便性のため実装中はコメントアウト
-	// if (req.isAuthenticated()) {
-	return next();
-	// } else {
-	// 	return next(404);
-	// }
+	if (req.isAuthenticated()) {
+		return next();
+	} else {
+		return next(404);
+	}
 });
 
 // 再帰的にrouterを読み込む

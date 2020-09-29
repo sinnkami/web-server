@@ -1,4 +1,10 @@
 const config = {
+
+	// ログイン情報
+	// XXX: ログイン処理は適宜変更しましょう
+	username: "test",
+	password: "test",
+
 	port: 8080,
 	locals: {},
 	descriptions: ["テスト", "なんか", "書いた", "知らんけど", "( ・∇・)"],
@@ -14,6 +20,9 @@ const config = {
 		{ name: "記事を編集する", transition: "/system/blog/edit", device: "" },
 		{ name: "お問い合わせ等を確認する", transition: "/system/question", device: "" },
 	],
+	db: {
+		password: "rootp",
+	},
 
 	twitter: {
 		user: "@sinnkami_",
