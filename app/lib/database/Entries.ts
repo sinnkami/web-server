@@ -22,93 +22,110 @@ class Entries extends SQL {
 		return results;
 	}
 
-	public async getById(id: number): Promise<IEntries> {
+	public async getById(id: number, isPost = true): Promise<IEntries> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryId = ?", id)
-			.toString();
-		const results = await this.select(sql);
+			.where("entryId = ?", id);
+		if (isPost) {
+			sql.where("post = ?", isPost);
+		}
+		const results = await this.select(sql.toString());
 		return results[0];
 	}
 
-	public async getByIds(ids: number[]): Promise<IEntries[]> {
+	public async getByIds(ids: number[], isPost = true): Promise<IEntries[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.where("entryId IN ?", ids)
-			.toString();
-		const results = await this.select(sql);
+			.where("entryId IN ?", ids);
+		if (isPost) {
+			sql.where("post = ?", isPost);
+		}
+		const results = await this.select(sql.toString());
 		return results;
 	}
 
-	public async getBackEntry(id: number): Promise<IEntries> {
+	public async getBackEntry(id: number, isPost = true): Promise<IEntries> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
 			.where("entryId < ?", id)
 			.order("entryId", false)
-			.limit(1)
-			.toString();
-		const results = await this.select(sql);
+			.limit(1);
+		if (isPost) {
+			sql.where("post = ?", isPost);
+		}
+		const results = await this.select(sql.toString());
 		return results[0];
 	}
 
-	public async getNextEntry(id: number): Promise<IEntries> {
+	public async getNextEntry(id: number, isPost = true): Promise<IEntries> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
+			.where("post = ?", true)
 			.where("entryId > ?", id)
 			.order("entryId", true)
-			.limit(1)
-			.toString();
-		const results = await this.select(sql);
+			.limit(1);
+		if (isPost) {
+			sql.where("post = ?", isPost);
+		}
+		const results = await this.select(sql.toString());
 		return results[0];
 	}
 
-	public async getEntryListByLimitCount(offset: number, limit = 10): Promise<IEntries[]> {
+	public async getEntryListByLimitCount(offset: number, limit = 10, isPost = true): Promise<IEntries[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
 			.limit(limit)
 			.offset(offset)
-			.order("entryId", false)
-			.toString();
-		const results = await this.select(sql);
+			.order("entryId", false);
+		if (isPost) {
+			sql.where("post = ?", isPost);
+		}
+		const results = await this.select(sql.toString());
 		return results;
 	}
 
-	public async getEntryListByIdsAndLimitCount(ids: number[], offset: number, limit = 10): Promise<IEntries[]> {
+	public async getEntryListByIdsAndLimitCount(ids: number[], offset: number, limit = 10, isPost = true): Promise<IEntries[]> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
 			.where("entryId IN ?", ids)
 			.limit(limit)
 			.offset(offset)
-			.order("entryId", false)
-			.toString();
-		const results = await this.select(sql);
+			.order("entryId", false);
+		if (isPost) {
+			sql.where("post = ?", isPost);
+		}
+		const results = await this.select(sql.toString());
 		return results;
 	}
 
-	public async getEntriyCount(): Promise<number> {
+	public async getEntriyCount(isPost = true): Promise<number> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
-			.field("COUNT(*)", "count")
-			.toString();
-		const results = await this.select(sql);
+			.field("COUNT(*)", "count");
+		if (isPost) {
+			sql.where("post = ?", isPost);
+		}
+		const results = await this.select(sql.toString());
 		return results[0].count;
 	}
 
-	public async getEntriyCountByIds(ids: number[]): Promise<number> {
+	public async getEntriyCountByIds(ids: number[], isPost = true): Promise<number> {
 		const sql = squelMysql
 			.select()
 			.from(this.tableName)
 			.field("COUNT(*)", "count")
-			.where("entryId IN ?", ids)
-			.toString();
-		const results = await this.select(sql);
+			.where("entryId IN ?", ids);
+		if (isPost) {
+			sql.where("post = ?", isPost);
+		}
+		const results = await this.select(sql.toString());
 		return results[0].count;
 	}
 
