@@ -16,7 +16,7 @@ class SettingLatestEntriesHandler {
 		return (req, res, next): void => {
 			// 最新の記事を設定する
 			EntryService.getLatestEntries(this.LIMIT_ENTRIES).then(function(values) {
-				res.locals.latestContents = values;
+				res.locals.latestContents = values || [];
 				next();
 			}).catch(function(err) {
 				logger.error(err);

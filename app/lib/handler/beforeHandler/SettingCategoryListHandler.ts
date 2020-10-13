@@ -13,7 +13,7 @@ class SettingCategoryListHandler {
 			// カテゴリー一覧を設定する
 			const limit: number = config.get("limit.category") || 5;
 			CategoryService.getCategoriesByLimit(limit).then(function(values) {
-				res.locals.categoryList = values;
+				res.locals.categoryList = values || [];
 				next();
 			}).catch(function(err) {
 				logger.error(err);
